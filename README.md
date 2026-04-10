@@ -124,7 +124,21 @@ user, shop name, phone, address, bank details, documents, status, ratings, earni
 
 ## 🔐 Environment Variables
 
-Create `.env` file in backend:
+### 1) Local development (Frontend)
+
+Create a `.env` file inside `frontend` and add:
+
+```
+VITE_MAINTENANCE_MODE=false
+```
+
+When this is `false`, your normal app/home page is shown.
+When this is `true`, the Coming Soon page is shown.
+
+### 2) Local development (Backend)
+
+Create `.env` file in `backend`:
+
 ```
 MONGODB_URI=mongodb://localhost:27017/goldmai
 JWT_SECRET=your_secret_key_here
@@ -132,6 +146,20 @@ PORT=5000
 FRONTEND_URL=http://localhost:5173
 NODE_ENV=development
 ```
+
+### 3) Production (Vercel)
+
+In your Vercel project settings, add this environment variable:
+
+- Key: `VITE_MAINTENANCE_MODE`
+- Value: `true`
+
+This will show the Coming Soon page in production.
+
+### Important Notes
+
+- Restart your frontend dev server after any `.env` change.
+- After adding/updating variables in Vercel, redeploy the project.
 
 ## 📦 Technologies Used
 
