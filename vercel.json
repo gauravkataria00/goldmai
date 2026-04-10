@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "env": {
+    "VITE_API_URL": "@goldmai_api_url"
+  },
+  "envPrefix": "VITE_"
+}
