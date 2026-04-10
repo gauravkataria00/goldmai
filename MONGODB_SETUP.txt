@@ -1,0 +1,50 @@
+MONGODB ATLAS DATABASE SETUP - STEP BY STEP
+
+1. Go to: https://www.mongodb.com/cloud/atlas/register
+2. Sign up with your email OR GitHub account (Recommended)
+3. Click "Continue" through the onboarding
+4. On "Deployment" page:
+   - Cluster: M0 (Free) - Select this
+   - Cloud Provider: AWS
+   - Region: Mumbai (ap-south-1) - for faster India access
+   - Click "Create"
+
+5. Wait 5-10 minutes for cluster to initialize
+
+6. CREATE DATABASE USER:
+   - Go to "Database Access" (left sidebar)
+   - Click "Add New Database User"
+   - Username: goldmai_user (or your choice)
+   - Password: Strong_Password123! (use a STRONG password)
+   - Database User Privileges: Atlas admin
+   - Click "Add User"
+
+7. ALLOW YOUR IP:
+   - Go to "Network Access" (left sidebar)
+   - Click "Add IP Address"
+   - Select "Allow Access from Anywhere"
+   - Confirm (0.0.0.0/0)
+   - Click "Confirm"
+
+8. GET CONNECTION STRING:
+   - Go back to "Clusters"
+   - Click "Connect" button on your cluster
+   - Select "Drivers"
+   - Copy the connection string
+   - Replace:
+     mongodb+srv://goldmai_user:PASSWORD@cluster.mongodb.net/goldmai?retryWrites=true&w=majority
+   
+   Replace PASSWORD with your actual password from step 6
+
+9. Copy the full connection string
+10. Add to Railway backend variables:
+    MONGODB_URI = [Your connection string]
+
+DONE! Your database is ready to use!
+
+---
+
+CONNECTION STRING FORMAT:
+mongodb+srv://goldmai_user:YourPassword123@cluster0.abc123.mongodb.net/goldmai
+
+The actual connection string will look different - use the one from MongoDB!

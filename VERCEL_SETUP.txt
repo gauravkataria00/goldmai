@@ -1,0 +1,34 @@
+VERCEL FRONTEND DEPLOYMENT - STEP BY STEP
+
+1. Go to: https://vercel.com/signup
+2. Click "Continue with GitHub"
+3. Authorize Vercel to access your GitHub account
+4. After login, go to: https://vercel.com/new
+5. Under "Import Git Repository", paste:
+   https://github.com/gauravkataria00/goldmai
+
+6. Click "Import"
+
+7. In the configuration screen:
+   Project Name: goldmai
+   Framework Preset: Vite
+   Build Command: npm run build ✓ (should auto-fill)
+   Output Directory: dist ✓ (should auto-fill)
+   Install Command: npm ci ✓ (should auto-fill)
+
+8. Environment Variables: (OPTIONAL for now)
+   Add: VITE_API_URL = https://goldmai-api.railway.app
+   (Can add later after backend is deployed)
+
+9. Click "Deploy" 🎉
+
+DONE! Your site will be live in 2-3 minutes at:
+https://goldmai.vercel.app
+
+You can monitor deployment in real-time!
+
+---
+
+AUTOMATIC FUTURE DEPLOYMENTS:
+Every time you push to GitHub main branch, 
+Vercel automatically rebuilds and deploys!

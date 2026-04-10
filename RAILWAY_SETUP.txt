@@ -1,0 +1,42 @@
+RAILWAY BACKEND DEPLOYMENT - STEP BY STEP
+
+1. Go to: https://railway.app/login
+2. Click "Continue with GitHub"
+3. Authorize Railway to access your GitHub account
+4. Accept the terms and create your Railway account
+5. Click "Create New Project" or "Start New Project"
+6. Select "Deploy from GitHub repo"
+7. Search and select: goldmai
+8. Click "Deploy Now"
+
+IMPORTANT - Configure Environment Variables:
+
+Once the project is created, go to the goldmai project:
+
+1. Click "goldmai" (the project name)
+2. Select the "Node.js" service
+3. Go to "Variables" tab
+4. Add these variables:
+
+   MONGODB_URI = 
+   mongodb+srv://username:password@cluster.mongodb.net/goldmai
+   (Get this from MongoDB Atlas - see Step 3 below)
+
+   JWT_SECRET = your_random_secret_key
+   (Example: "goldmai_super_secret_key_2024")
+
+   PORT = 5000
+
+   NODE_ENV = production
+
+5. Click "Redeploy" button
+6. Wait for deployment to complete (5-10 minutes)
+
+DONE! Your backend API will be live at:
+https://goldmai-api.railway.app
+
+---
+
+IMPORTANT NEXT STEPS:
+After MongoDB is set up, update MONGODB_URI variable 
+and backend will automatically connect!

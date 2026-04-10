@@ -1,0 +1,87 @@
+📋 GOLDMAI DEPLOYMENT QUICK REFERENCE
+
+═══════════════════════════════════════════════════════════════
+
+🔗 IMPORTANT LINKS
+─────────────────────────────────────────────────────────────
+GitHub Repo:        https://github.com/gauravkataria00/goldmai
+Vercel Dashboard:   https://vercel.com/dashboard
+Railway Dashboard:  https://railway.app/dashboard
+MongoDB Atlas:      https://cloud.mongodb.com
+
+═══════════════════════════════════════════════════════════════
+
+🌍 LIVE URLS (AFTER DEPLOYMENT)
+─────────────────────────────────────────────────────────────
+Frontend:  https://goldmai.vercel.app
+Backend:   https://goldmai-api.railway.app
+Database:  MongoDB Atlas (Cloud)
+
+═══════════════════════════════════════════════════════════════
+
+🔑 CREDENTIALS & KEYS (KEEP SAFE)
+─────────────────────────────────────────────────────────────
+
+GitHub:
+  Username: gauravkataria00
+  Repo: goldmai
+
+MongoDB Atlas:
+  Email: [Your email]
+  Username: goldmai_user
+  Password: [Your secure password - SAVE THIS]
+  Cluster: M0 Free Tier
+
+Backend Environment Variables:
+  MONGODB_URI: mongodb+srv://...
+  JWT_SECRET: goldmai_secret_2024
+  PORT: 5000
+  NODE_ENV: production
+
+Frontend Environment Variables:
+  VITE_API_URL: https://goldmai-api.railway.app
+
+═══════════════════════════════════════════════════════════════
+
+📈 DEPLOYMENT ORDER (MUST FOLLOW THIS)
+─────────────────────────────────────────────────────────────
+1. MongoDB Atlas Setup (Database)
+2. Railway Backend Deployment (API Server)
+3. Vercel Frontend Deployment (Website)
+
+DO NOT skip any step!
+
+═══════════════════════════════════════════════════════════════
+
+✅ DEPLOYMENT STATUS
+─────────────────────────────────────────────────────────────
+✓ GitHub Code: Ready & Pushed
+✓ Frontend Build: Complete (dist folder)
+✓ Vercel Config: Added (vercel.json)
+
+⏳ MongoDB: Set up needed
+⏳ Railway: Deploy needed
+⏳ Vercel: Deploy needed
+
+═══════════════════════════════════════════════════════════════
+
+🎯 NEXT ACTIONS
+─────────────────────────────────────────────────────────────
+1. Open DEPLOYMENT_CHECKLIST.txt
+2. Follow Step 1 (MongoDB Setup)
+3. Follow Step 2 (Railway Deployment)
+4. Follow Step 3 (Vercel Deployment)
+5. Verify everything works
+6. CELEBRATE! 🎉
+
+═══════════════════════════════════════════════════════════════
+
+⚠️ IMPORTANT REMINDERS
+─────────────────────────────────────────────────────────────
+• MongoDB password must be STRONG (uppercase, numbers, symbols)
+• Don't commit .env files to GitHub (they're in .gitignore)
+• Free tier services have limitations but work perfectly for MVP
+• Always test frontend at https://goldmai.vercel.app
+• Always test backend at https://goldmai-api.railway.app/health
+
+═══════════════════════════════════════════════════════════════
