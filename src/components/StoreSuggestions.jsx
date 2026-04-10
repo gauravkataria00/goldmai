@@ -41,65 +41,68 @@ export default function StoreSuggestions() {
   }
 
   return (
-    <section className="py-8 sm:py-12 bg-black relative overflow-hidden">
-      <div className="w-full max-w-4xl mx-auto px-3 sm:px-4">
+    <section className="py-6 sm:py-12 min-h-screen bg-black relative overflow-hidden flex items-center justify-center">
+      <div className="w-full max-w-4xl mx-auto px-3 sm:px-4 safe-area">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h2 className="heading-font text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-2 sm:mb-3">
+        <div className="mb-4 sm:mb-8">
+          <h2 className="heading-font text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black mb-1 sm:mb-3">
             <span className="bg-gradient-to-r from-yellow-200 to-yellow-100 bg-clip-text text-transparent">
-              SUGGESTED FOR YOU
+              SUGGESTED
             </span>
+            <br className="sm:hidden" />
+            <span className="bg-gradient-to-r from-yellow-100 to-yellow-300 bg-clip-text text-transparent"> FOR YOU</span>
           </h2>
-          <p className="text-gray-300 text-sm sm:text-base md:text-lg px-2">Discover premium stores personalized just for you</p>
+          <p className="text-gray-300 text-xs sm:text-sm md:text-base px-2">Discover premium stores personalized just for you</p>
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-6">
-          <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
+        <div className="mb-4 sm:mb-6">
+          <div className="h-0.5 sm:h-1 bg-gray-800 rounded-full overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-yellow-600 to-yellow-400 transition-all duration-500"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          <p className="text-gray-400 text-xs mt-2 text-right">{currentIndex + 1} / {suggestedStores.length}</p>
+          <p className="text-gray-400 text-xs mt-1 sm:mt-2 text-right">{currentIndex + 1} / {suggestedStores.length}</p>
         </div>
 
         {/* Main Card Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 items-center">
           {/* Navigation - Left */}
           <div className="hidden lg:block">
             <button
               onClick={handlePrev}
               disabled={currentIndex === 0}
-              className="w-16 h-16 rounded-full border-2 border-yellow-600/50 hover:border-yellow-400 hover:bg-yellow-600/20 transition text-yellow-400 hover:text-yellow-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-2xl transform hover:scale-110 active:scale-95"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-yellow-600/50 md:hover:border-yellow-400 md:hover:bg-yellow-600/20 transition text-yellow-400 md:hover:text-yellow-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-xl sm:text-2xl md:hover:scale-110 active:scale-95"
             >
               <i className="fa-solid fa-chevron-left"></i>
             </button>
           </div>
 
           {/* Main Store Card - Instagram Style */}
-          <div className="relative col-span-1 mx-auto w-full max-w-sm aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl shadow-black group">
+          <div className="relative col-span-1 mx-auto w-full max-w-xs sm:max-w-sm aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl shadow-black group">
             {/* Store Image Background */}
             <img
               src={getStoreImage(currentStore.id)}
               alt={currentStore.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              className="w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-500"
             />
 
             {/* Dark Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/80"></div>
 
             {/* Top Section - Verified Badge + Close */}
-            <div className="absolute top-0 left-0 right-0 p-5 flex items-center justify-between">
+            <div className="absolute top-0 left-0 right-0 p-3 sm:p-5 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {currentStore.verified && (
-                  <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 text-black px-3 py-1 rounded-full text-xs font-black flex items-center gap-1">
-                    <i className="fa-solid fa-check-circle"></i>
+                  <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 text-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-black flex items-center gap-1">
+                    <i className="fa-solid fa-check-circle text-xs"></i>
                     VERIFIED
                   </span>
                 )}
               </div>
-              <button className="text-white text-xl opacity-70 hover:opacity-100 transition">
+              <button className="text-white text-lg sm:text-xl opacity-70 md:hover:opacity-100 transition min-w-10 min-h-10">
                 <i className="fa-solid fa-xmark"></i>
               </button>
             </div>

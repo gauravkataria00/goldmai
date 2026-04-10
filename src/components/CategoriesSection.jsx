@@ -20,42 +20,43 @@ export default function CategoriesSection() {
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header - BIGGER */}
-        <div className="text-center mb-12 sm:mb-20 animate-fade-in">
-          <h2 className="heading-font text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 leading-tight">
+        <div className="text-center mb-8 sm:mb-12 md:mb-20 animate-fade-in">
+          <h2 className="heading-font text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-2 sm:mb-4 md:mb-6 leading-tight">
             <span className="bg-gradient-to-r from-yellow-200 to-yellow-100 bg-clip-text text-transparent block">SHOP BY</span>
             <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent block">CATEGORY</span>
           </h2>
-          <p className="text-gray-300 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto font-medium px-2">Explore curated collections from premium stores across India</p>
+          <p className="text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg max-w-2xl mx-auto font-medium px-2">Explore curated collections from premium stores across India</p>
         </div>
 
         {/* Categories Grid - BIGGER */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
           {categories.map((category, index) => (
             <div
               key={category.id}
-              className="group relative overflow-hidden rounded-3xl aspect-square cursor-pointer h-full animate-slide-up hover:shadow-3xl hover:shadow-yellow-600/40 transition-all duration-300 hover:scale-105"
+              className="group relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-square cursor-pointer h-full animate-slide-up md:hover:shadow-3xl md:hover:shadow-yellow-600/40 md:hover:scale-105 transition-all duration-300"
               style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'both' }}
             >
               {/* Image Background */}
               <img
                 src={getCategoryImage(category.id)}
                 alt={category.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-125"
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-125"
               />
 
               {/* Premium Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/10 group-hover:from-black/85 group-hover:via-black/40 group-hover:to-black/5 transition duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/10 md:group-hover:from-black/85 md:group-hover:via-black/40 md:group-hover:to-black/5 transition duration-300"></div>
 
               {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/0 via-yellow-600/20 to-yellow-600/0 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/0 via-yellow-600/20 to-yellow-600/0 opacity-0 md:group-hover:opacity-100 transition duration-500"></div>
 
               {/* Premium Border Glow on Hover */}
-              <div className="absolute inset-0 border-2 border-yellow-600/0 group-hover:border-yellow-600/60 rounded-3xl transition duration-300"></div>
+              <div className="absolute inset-0 border-2 border-yellow-600/0 md:group-hover:border-yellow-600/60 rounded-2xl sm:rounded-3xl transition duration-300"></div>
 
               {/* Content - CENTERED & BIGGER */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-6 text-center">
                 {/* Icon - BIGGER */}
-                <div className="text-7xl md:text-8xl mb-4 group-hover:scale-150 group-hover:-translate-y-3 transition duration-300">
+                <div className="text-5xl sm:text-7xl md:text-8xl mb-2 sm:mb-4 md:group-hover:scale-150 md:group-hover:-translate-y-3 transition duration-300">
                   {category.icon}
                 </div>
 

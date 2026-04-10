@@ -65,8 +65,8 @@ export default function NearbyStoresSection() {
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header - BIGGER */}
-        <div className="text-center mb-12 sm:mb-20 animate-fade-in">
-          <h2 className="heading-font text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 leading-tight">
+        <div className="text-center mb-8 sm:mb-12 md:mb-20 animate-fade-in">
+          <h2 className="heading-font text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-2 sm:mb-4 md:mb-6 leading-tight">
             <span className="bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200 bg-clip-text text-transparent block leading-tight">
               DISCOVER PREMIUM
             </span>
@@ -74,7 +74,7 @@ export default function NearbyStoresSection() {
               STORES NEAR YOU
             </span>
           </h2>
-          <p className="text-gray-300 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto font-medium px-2">
+          <p className="text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg max-w-3xl mx-auto font-medium px-2">
             {userLocation ? '✨ Handpicked stores in your neighborhood' : '✨ Featured premium stores across India'}
           </p>
         </div>
