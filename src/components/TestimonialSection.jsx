@@ -17,17 +17,17 @@ export default function TestimonialSection() {
         <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-yellow-600/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="heading-font text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-yellow-200 to-yellow-100 bg-clip-text text-transparent">
+          <h2 className="heading-font text-3xl sm:text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-yellow-200 to-yellow-100 bg-clip-text text-transparent">
             What Our Customers Say
           </h2>
-          <p className="text-gray-400 text-lg">Join thousands of satisfied shoppers across India</p>
+          <p className="text-gray-400 text-sm sm:text-base md:text-lg">Join thousands of satisfied shoppers across India</p>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
@@ -38,7 +38,7 @@ export default function TestimonialSection() {
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/10 to-purple-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300 blur-lg"></div>
 
               {/* Card */}
-              <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 hover:border-yellow-600/30 rounded-2xl p-8 transition duration-300">
+              <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 hover:border-yellow-600/30 rounded-2xl p-4 sm:p-6 md:p-8 transition duration-300">
                 {/* Star Rating */}
                 <div className="flex gap-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -49,7 +49,7 @@ export default function TestimonialSection() {
                 </div>
 
                 {/* Testimonial Text */}
-                <p className="text-gray-300 mb-8 italic text-lg leading-relaxed">
+                <p className="text-gray-300 mb-8 italic text-sm sm:text-base md:text-lg leading-relaxed">
                   <span className="text-yellow-600/50 text-2xl mr-1">"</span>
                   {testimonial.text}
                   <span className="text-yellow-600/50 text-2xl ml-1">"</span>
