@@ -13,7 +13,7 @@ export default function LuxuryBanner() {
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black"></div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left - Content */}
           <div className="animate-fade-in">
@@ -22,17 +22,17 @@ export default function LuxuryBanner() {
               <span className="text-yellow-300 text-xs font-black">CURATED COLLECTION</span>
             </div>
 
-            <h2 className="heading-font text-5xl md:text-6xl font-black mb-6 leading-tight">
+            <h2 className="heading-font text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 leading-tight">
               <span className="bg-gradient-to-r from-yellow-200 to-yellow-100 bg-clip-text text-transparent">EXCLUSIVE</span>
               <br />
               <span className="text-white">Luxury Collections</span>
             </h2>
 
-            <p className="text-gray-300 text-lg mb-4 leading-relaxed">
+            <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-3 sm:mb-4 leading-relaxed px-2 sm:px-0">
               Hand-picked from India's finest boutiques. Every piece tells a story of tradition, craftsmanship, and elegance.
             </p>
 
-            <p className="text-gray-400 text-base mb-8">
+            <p className="text-gray-400 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 px-2 sm:px-0">
               🌟 Verified Sellers • 🎁 Premium Packaging • 🚀 Express Delivery
             </p>
 

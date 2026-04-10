@@ -18,14 +18,14 @@ export default function CategoriesSection() {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-yellow-500/12 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }}></div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header - BIGGER */}
-        <div className="text-center mb-20 animate-fade-in">
-          <h2 className="heading-font text-6xl md:text-7xl font-black mb-6 leading-tight">
+        <div className="text-center mb-12 sm:mb-20 animate-fade-in">
+          <h2 className="heading-font text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 leading-tight">
             <span className="bg-gradient-to-r from-yellow-200 to-yellow-100 bg-clip-text text-transparent block">SHOP BY</span>
             <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent block">CATEGORY</span>
           </h2>
-          <p className="text-gray-300 text-xl max-w-2xl mx-auto font-medium">Explore curated collections from premium stores across India</p>
+          <p className="text-gray-300 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto font-medium px-2">Explore curated collections from premium stores across India</p>
         </div>
 
         {/* Categories Grid - BIGGER */}

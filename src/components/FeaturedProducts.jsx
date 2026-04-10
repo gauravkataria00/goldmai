@@ -18,14 +18,14 @@ export default function FeaturedProducts() {
         <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }}></div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header - BIGGER */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-          <div className="max-w-2xl">
-            <h2 className="heading-font text-5xl md:text-6xl font-black bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200 bg-clip-text text-transparent mb-4 leading-tight">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-16 gap-4 sm:gap-6">
+          <div className="max-w-2xl w-full">
+            <h2 className="heading-font text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200 bg-clip-text text-transparent mb-3 sm:mb-4 leading-tight">
               TRENDING NOW
             </h2>
-            <p className="text-gray-300 text-lg font-medium">Handpicked from 1000+ premium stores • Updated daily</p>
+            <p className="text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg font-medium px-1">Handpicked from 1000+ premium stores • Updated daily</p>
           </div>
           <a href="/shop" className="gold-button px-8 py-4 rounded-2xl font-bold text-lg hover:scale-110 transition flex items-center gap-3 shadow-xl hover:shadow-2xl hover:shadow-yellow-600/40">
             <span>SHOP ALL</span>

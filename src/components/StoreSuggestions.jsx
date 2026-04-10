@@ -41,16 +41,16 @@ export default function StoreSuggestions() {
   }
 
   return (
-    <section className="py-12 bg-black relative overflow-hidden">
-      <div className="w-full max-w-4xl mx-auto px-4">
+    <section className="py-8 sm:py-12 bg-black relative overflow-hidden">
+      <div className="w-full max-w-4xl mx-auto px-3 sm:px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h2 className="heading-font text-5xl md:text-6xl font-black mb-3">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="heading-font text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-2 sm:mb-3">
             <span className="bg-gradient-to-r from-yellow-200 to-yellow-100 bg-clip-text text-transparent">
               SUGGESTED FOR YOU
             </span>
           </h2>
-          <p className="text-gray-300 text-lg">Discover premium stores personalized just for you</p>
+          <p className="text-gray-300 text-sm sm:text-base md:text-lg px-2">Discover premium stores personalized just for you</p>
         </div>
 
         {/* Progress Bar */}
