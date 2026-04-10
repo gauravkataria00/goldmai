@@ -1,0 +1,20 @@
+<svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="simplGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Main "G" Letter - Simple & Clean -->
+  <g transform="translate(80, 100)">
+    <path d="M -25 -30 Q -38 -30 -38 -15 L -38 15 Q -38 30 -25 30 L 10 30 L 10 18 L -15 18 L -15 8 L 5 8 Q 20 8 20 -12 Q 20 -32 5 -32 Q -10 -32 -25 -30 Z" 
+          fill="url(#simplGold)" stroke="none"/>
+  </g>
+
+  <!-- Simple divider line -->
+  <line x1="140" y1="50" x2="140" y2="150" stroke="url(#simplGold)" stroke-width="2" opacity="0.5"/>
+
+  <!-- Brand Text - Clean & Clear -->
+  <text x="180" y="125" font-family="'Arial', sans-serif" font-size="72" font-weight="bold" fill="url(#simplGold)">GOLDMAI</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cleanGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="url(#cleanGold)" stroke-width="2"/>
+
+  <!-- Simple "G" Letter -->
+  <g transform="translate(100, 100)">
+    <path d="M -20 -25 Q -32 -25 -32 -12 L -32 12 Q -32 25 -20 25 L 8 25 L 8 15 L -12 15 L -12 8 L 4 8 Q 16 8 16 -10 Q 16 -27 4 -27 Q -8 -27 -20 -25 Z" 
+          fill="url(#cleanGold)" stroke="none"/>
+  </g>
+</svg>
