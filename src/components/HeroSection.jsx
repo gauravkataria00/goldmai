@@ -14,9 +14,10 @@ export default function HeroSection() {
       <div className="w-full max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <div className="max-w-5xl animate-fade-in">
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-600/20 to-yellow-500/10 backdrop-blur-xl px-6 py-3 rounded-full border border-yellow-400/50 mb-8 animate-slide-in-left hover:border-yellow-300 transition" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
-            <i className="fa-solid fa-india text-yellow-400 text-lg"></i>
-            <span className="text-yellow-300 text-sm font-bold tracking-widest">🚀 INDIA'S #1 FASHION HUB</span>
+          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-600/25 to-yellow-500/15 backdrop-blur-xl px-7 py-4 rounded-full border border-yellow-400/60 mb-8 animate-slide-in-left hover:border-yellow-300 hover:bg-gradient-to-r hover:from-yellow-600/30 hover:to-yellow-500/20 transition shadow-lg shadow-yellow-600/20" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+            <i className="fa-solid fa-crown text-yellow-400 text-xl"></i>
+            <span className="text-yellow-300 text-sm font-black tracking-widest">LUXURY CRAFTED FOR ROYALTY</span>
+            <span className="text-yellow-400/70 text-sm">✨</span>
           </div>
 
           {/* Main Heading - BIGGER */}
@@ -29,8 +30,9 @@ export default function HeroSection() {
           </h1>
 
           {/* Subheading - BIGGER */}
-          <p className="mt-8 text-2xl md:text-3xl text-gray-100 leading-relaxed max-w-3xl font-medium animate-slide-in-left" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
-            Discover 1000+ premium stores across India. Same-day delivery. Zero compromise on quality.
+          <p className="mt-8 text-2xl md:text-3xl text-gray-100 leading-relaxed max-w-3xl font-bold animate-slide-in-left" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
+            Discover 1000+ exclusive boutiques. Premium collections from emerging designers. Same-day delivery. 
+            <span className="block text-yellow-300 mt-2">✨ Luxury at your doorstep ✨</span>
           </p>
 
           {/* CTA Buttons - BIGGER & PREMIUM */}
