@@ -142,7 +142,10 @@ function ComingSoon() {
     : countdownVariants
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden overflow-y-auto bg-gradient-to-br from-black via-zinc-950 to-black px-4 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16">
+    <main
+      className="relative min-h-screen overflow-visible overflow-x-hidden bg-gradient-to-br from-black via-zinc-950 to-black px-4 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16"
+      style={{ WebkitOverflowScrolling: 'touch', touchAction: 'auto' }}
+    >
       {isMobile ? (
         <div
           className="pointer-events-none absolute inset-0 opacity-30"
@@ -182,13 +185,8 @@ function ComingSoon() {
         </>
       )}
 
-      <motion.section
-        variants={sectionVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-6xl flex-col justify-center space-y-12"
-      >
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <section className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-6xl flex-col justify-center space-y-12">
+        <motion.div variants={sectionVariants} initial="hidden" animate="visible" className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <motion.div variants={itemVariants} className="space-y-6 text-center lg:text-left">
             <motion.div variants={itemVariants} className={`inline-block rounded-full border border-gold-500/30 bg-black/35 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 sm:text-sm ${isMobile ? '' : 'backdrop-blur-md'}`}>
               🚧 UNDER DEVELOPMENT
@@ -267,7 +265,7 @@ function ComingSoon() {
               ))}
             </div>
           </motion.div>
-        </div>
+        </motion.div>
 
         <motion.div variants={itemVariants} className="grid gap-4 sm:grid-cols-3">
           {features.map((feature, index) => (
@@ -283,7 +281,7 @@ function ComingSoon() {
             </motion.div>
           ))}
         </motion.div>
-      </motion.section>
+      </section>
     </main>
   )
 }
