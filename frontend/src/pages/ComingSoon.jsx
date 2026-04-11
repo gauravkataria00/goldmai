@@ -44,6 +44,22 @@ function ComingSoon() {
     minutes: 0,
     seconds: 0,
   })
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)')
+    const updateDeviceMode = () => setIsMobile(mediaQuery.matches)
+
+    updateDeviceMode()
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', updateDeviceMode)
+      return () => mediaQuery.removeEventListener('change', updateDeviceMode)
+    }
+
+    mediaQuery.addListener(updateDeviceMode)
+    return () => mediaQuery.removeListener(updateDeviceMode)
+  }, [])
 
   useEffect(() => {
     const launchDate = new Date()
@@ -86,49 +102,100 @@ function ComingSoon() {
     { label: 'Seconds', value: timeLeft.seconds },
   ]
 
+  const sectionVariants = isMobile
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.06,
+            delayChildren: 0.04,
+          },
+        },
+      }
+    : containerVariants
+
+  const itemVariants = isMobile
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            duration: 0.24,
+            ease: 'easeOut',
+          },
+        },
+      }
+    : fadeUpVariants
+
+  const timerVariants = isMobile
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            duration: 0.2,
+            ease: 'easeOut',
+          },
+        },
+      }
+    : countdownVariants
+
   return (
     <main className="relative min-h-screen overflow-x-hidden overflow-y-auto bg-gradient-to-br from-black via-zinc-950 to-black px-4 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16">
-      <motion.div
-        className="pointer-events-none absolute inset-0 opacity-50"
-        animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 20% 20%, rgba(234,179,8,0.12), transparent 40%), radial-gradient(circle at 80% 70%, rgba(250,204,21,0.1), transparent 42%)',
-          backgroundSize: '140% 140%',
-        }}
-      />
+      {isMobile ? (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-30"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 20% 20%, rgba(234,179,8,0.08), transparent 40%), radial-gradient(circle at 80% 70%, rgba(250,204,21,0.06), transparent 42%)',
+          }}
+        />
+      ) : (
+        <>
+          <motion.div
+            className="pointer-events-none absolute inset-0 opacity-50"
+            animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+            style={{
+              backgroundImage:
+                'radial-gradient(circle at 20% 20%, rgba(234,179,8,0.12), transparent 40%), radial-gradient(circle at 80% 70%, rgba(250,204,21,0.1), transparent 42%)',
+              backgroundSize: '140% 140%',
+            }}
+          />
 
-      <motion.div
-        className="absolute left-[7%] top-[10%] h-40 w-40 rounded-full bg-gold-500/15 blur-3xl"
-        animate={{ opacity: [0.18, 0.5, 0.18], scale: [1, 1.14, 1], y: [0, -16, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute right-[6%] top-[18%] h-52 w-52 rounded-full bg-gold-400/10 blur-3xl"
-        animate={{ opacity: [0.14, 0.4, 0.14], scale: [1, 1.12, 1], y: [0, 18, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-      />
-      <motion.div
-        className="absolute bottom-[8%] left-[28%] h-36 w-36 rounded-full bg-gold-300/10 blur-3xl"
-        animate={{ opacity: [0.1, 0.28, 0.1], scale: [1, 1.1, 1], x: [0, 14, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-      />
+          <motion.div
+            className="absolute left-[7%] top-[10%] h-40 w-40 rounded-full bg-gold-500/15 blur-3xl"
+            animate={{ opacity: [0.18, 0.5, 0.18], scale: [1, 1.14, 1], y: [0, -16, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute right-[6%] top-[18%] h-52 w-52 rounded-full bg-gold-400/10 blur-3xl"
+            animate={{ opacity: [0.14, 0.4, 0.14], scale: [1, 1.12, 1], y: [0, 18, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+          />
+          <motion.div
+            className="absolute bottom-[8%] left-[28%] h-36 w-36 rounded-full bg-gold-300/10 blur-3xl"
+            animate={{ opacity: [0.1, 0.28, 0.1], scale: [1, 1.1, 1], x: [0, 14, 0] }}
+            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+          />
+        </>
+      )}
 
       <motion.section
-        variants={containerVariants}
+        variants={sectionVariants}
         initial="hidden"
         animate="visible"
         className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-6xl flex-col justify-center space-y-12"
       >
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <motion.div variants={fadeUpVariants} className="space-y-6 text-center lg:text-left">
-            <motion.div variants={fadeUpVariants} className="inline-block rounded-full border border-gold-500/30 bg-black/35 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 backdrop-blur-md sm:text-sm">
+          <motion.div variants={itemVariants} className="space-y-6 text-center lg:text-left">
+            <motion.div variants={itemVariants} className={`inline-block rounded-full border border-gold-500/30 bg-black/35 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 sm:text-sm ${isMobile ? '' : 'backdrop-blur-md'}`}>
               🚧 UNDER DEVELOPMENT
             </motion.div>
 
             <motion.h1
-              variants={fadeUpVariants}
+              variants={itemVariants}
               className="font-serif text-4xl font-bold leading-tight text-zinc-50 sm:text-5xl md:text-6xl"
             >
               Something{' '}
@@ -139,22 +206,22 @@ function ComingSoon() {
             </motion.h1>
 
             <motion.p
-              variants={fadeUpVariants}
+              variants={itemVariants}
               className="mx-auto max-w-xl text-base leading-relaxed text-zinc-300 sm:text-lg lg:mx-0"
             >
               India’s next-gen fashion discovery platform is being crafted.
             </motion.p>
 
-            <motion.div variants={fadeUpVariants} className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
+            <motion.div variants={itemVariants} className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
               <motion.a
                 href="https://wa.me/918059172716"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.04, y: -2 }}
+                whileHover={isMobile ? { opacity: 0.95 } : { scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                animate={{ boxShadow: ['0 0 24px rgba(234,179,8,0.35)', '0 0 34px rgba(234,179,8,0.55)', '0 0 24px rgba(234,179,8,0.35)'] }}
-                transition={{ boxShadow: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' } }}
-                className="rounded-2xl bg-gradient-to-r from-gold-500 to-gold-300 px-7 py-4 text-sm font-semibold text-black shadow-lg transition-all duration-300 sm:text-base"
+                animate={isMobile ? undefined : { boxShadow: ['0 0 24px rgba(234,179,8,0.35)', '0 0 34px rgba(234,179,8,0.55)', '0 0 24px rgba(234,179,8,0.35)'] }}
+                transition={isMobile ? { duration: 0.2 } : { boxShadow: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' } }}
+                className={`rounded-2xl px-7 py-4 text-sm font-semibold text-black transition-all duration-300 sm:text-base ${isMobile ? 'bg-gold-500 shadow-md' : 'bg-gradient-to-r from-gold-500 to-gold-300 shadow-lg'}`}
               >
                 Chat with Himanshu
               </motion.a>
@@ -163,18 +230,18 @@ function ComingSoon() {
                 href="https://wa.me/918708195687"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ scale: 1.04, y: -2 }}
+                whileHover={isMobile ? { opacity: 0.95 } : { scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                animate={{ boxShadow: ['0 0 22px rgba(234,179,8,0.3)', '0 0 32px rgba(234,179,8,0.5)', '0 0 22px rgba(234,179,8,0.3)'] }}
-                transition={{ boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } }}
-                className="rounded-2xl border border-gold-400/35 bg-black/45 px-7 py-4 text-sm font-semibold text-gold-200 shadow-lg backdrop-blur-md transition-all duration-300 hover:border-gold-300/70 sm:text-base"
+                animate={isMobile ? undefined : { boxShadow: ['0 0 22px rgba(234,179,8,0.3)', '0 0 32px rgba(234,179,8,0.5)', '0 0 22px rgba(234,179,8,0.3)'] }}
+                transition={isMobile ? { duration: 0.2 } : { boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } }}
+                className={`rounded-2xl border border-gold-400/35 bg-black/45 px-7 py-4 text-sm font-semibold text-gold-200 transition-all duration-300 sm:text-base ${isMobile ? 'shadow-md' : 'shadow-lg backdrop-blur-md hover:border-gold-300/70'}`}
               >
                 Chat with Gavi
               </motion.a>
             </motion.div>
           </motion.div>
 
-          <motion.div variants={fadeUpVariants} className="rounded-2xl border border-gold-500/25 bg-black/45 p-6 shadow-[0_0_40px_rgba(234,179,8,0.14)] backdrop-blur-xl sm:p-8">
+          <motion.div variants={itemVariants} className={`rounded-2xl border border-gold-500/25 bg-black/45 p-6 sm:p-8 ${isMobile ? 'shadow-md' : 'shadow-[0_0_40px_rgba(234,179,8,0.14)] backdrop-blur-xl'}`}>
             <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-gold-300 sm:text-sm">
               Launching Soon
             </p>
@@ -183,14 +250,14 @@ function ComingSoon() {
               {countdownUnits.map((unit) => (
                 <motion.div
                   key={unit.label}
-                  variants={countdownVariants}
-                  className="rounded-xl border border-gold-500/25 bg-gradient-to-b from-zinc-900/80 to-black/70 p-4 text-center shadow-[0_10px_28px_rgba(0,0,0,0.35)] sm:p-5"
+                  variants={timerVariants}
+                  className={`rounded-xl border border-gold-500/25 p-4 text-center sm:p-5 ${isMobile ? 'bg-zinc-900 shadow-sm' : 'bg-gradient-to-b from-zinc-900/80 to-black/70 shadow-[0_10px_28px_rgba(0,0,0,0.35)]'}`}
                 >
                   <motion.div
                     key={`${unit.label}-${unit.value}`}
-                    initial={{ opacity: 0.5, y: 6 }}
+                    initial={{ opacity: 0.6, y: isMobile ? 0 : 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.28, ease: 'easeOut' }}
+                    transition={{ duration: isMobile ? 0.16 : 0.28, ease: 'easeOut' }}
                     className="font-serif text-3xl font-bold text-gold-300 sm:text-4xl"
                   >
                     {String(unit.value).padStart(2, '0')}
@@ -202,14 +269,14 @@ function ComingSoon() {
           </motion.div>
         </div>
 
-        <motion.div variants={fadeUpVariants} className="grid gap-4 sm:grid-cols-3">
+        <motion.div variants={itemVariants} className="grid gap-4 sm:grid-cols-3">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              variants={fadeUpVariants}
-              whileHover={{ y: -4, scale: 1.02 }}
-              transition={{ delay: index * 0.06 }}
-              className="rounded-xl border border-gold-500/20 bg-black/35 p-5 text-center shadow-[0_12px_34px_rgba(0,0,0,0.35)] backdrop-blur-md"
+              variants={itemVariants}
+              whileHover={isMobile ? { opacity: 0.95 } : { y: -4, scale: 1.02 }}
+              transition={isMobile ? { duration: 0.2 } : { delay: index * 0.06 }}
+              className={`rounded-xl border border-gold-500/20 bg-black/35 p-5 text-center ${isMobile ? 'shadow-sm' : 'shadow-[0_12px_34px_rgba(0,0,0,0.35)] backdrop-blur-md'}`}
             >
               <p className="mb-3 text-2xl">{feature.icon}</p>
               <p className="text-sm font-medium text-zinc-200 sm:text-base">{feature.title}</p>
