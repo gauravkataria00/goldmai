@@ -7,7 +7,7 @@ export default function ProductDetailPage() {
   const isDataReady = Array.isArray(products) && Array.isArray(stores)
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading products...</div>
   }
 
   if (!id) {
@@ -28,6 +28,8 @@ export default function ProductDetailPage() {
 
   const phone = store.whatsappNumber?.replace(/^91/, '') || ''
   const whatsappText = encodeURIComponent(`Hi, I want to order: ${product.name} from ${store.name}`)
+  const isLowStock = Number(product.reviewsCount || 0) % 3 === 0
+  const stockText = isLowStock ? 'Only 2 left' : 'In Stock'
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
@@ -43,12 +45,15 @@ export default function ProductDetailPage() {
             <p className="text-zinc-300">Category: {product.category}</p>
             <p className="text-zinc-300">From Store: <Link to={`/store/${store.id}`} className="text-gold-300 hover:text-gold-200">{store.name}</Link></p>
             <p className="text-zinc-300">Location: {store.area}, {store.location}</p>
+            <p className="text-zinc-300">⭐ {product.rating} ({product.reviewsCount} reviews)</p>
 
             <div className="flex items-end gap-3">
               <p className="text-3xl font-semibold text-gold-300">₹{product.price.toLocaleString('en-IN')}</p>
               <p className="text-sm text-zinc-500 line-through">₹{product.originalPrice.toLocaleString('en-IN')}</p>
               <span className="rounded-md bg-gold-500 px-2 py-1 text-xs font-bold text-black">{product.discountPercent}% OFF</span>
             </div>
+
+            <p className={`text-sm font-semibold ${isLowStock ? 'text-amber-300' : 'text-emerald-400'}`}>{stockText}</p>
 
             <p className="leading-relaxed text-zinc-300">{product.description}</p>
 

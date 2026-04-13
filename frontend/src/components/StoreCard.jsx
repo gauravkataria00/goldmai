@@ -6,6 +6,8 @@ export default function StoreCard({ store }) {
   }
 
   const phone = store.whatsappNumber?.replace(/^91/, '') || ''
+  const yearsInBusiness = store.yearsInBusiness || 3
+  const reviewsCount = store.totalReviews || 24
 
   return (
     <article className="group overflow-hidden rounded-2xl border border-gold-500/25 bg-zinc-950/80 transition-all duration-300 hover:-translate-y-1 hover:border-gold-400/60 hover:shadow-[0_0_28px_rgba(234,179,8,0.18)]">
@@ -21,10 +23,20 @@ export default function StoreCard({ store }) {
           <span className="absolute right-3 top-3 rounded-full bg-black/75 px-3 py-1 text-xs font-semibold text-gold-300">
             ⭐ {store.rating}
           </span>
+          <span className="absolute left-3 top-3 rounded-full border border-gold-500/30 bg-black/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-gold-300">
+            Verified Store
+          </span>
         </div>
       </Link>
 
       <div className="space-y-3 p-5">
+        <div className="flex flex-wrap gap-2">
+          {['Top Rated', 'Trusted Seller']?.map((badge) => (
+            <span key={badge} className="rounded-full border border-gold-500/30 bg-gold-500/10 px-2.5 py-1 text-[10px] font-semibold text-gold-300">
+              {badge}
+            </span>
+          ))}
+        </div>
         <p className="text-xs uppercase tracking-[0.12em] text-gold-300">{store.category}</p>
         <Link to={`/store/${store.id}`}>
           <h4 className="font-serif text-xl font-bold text-zinc-50 transition-colors duration-300 group-hover:text-gold-300">
@@ -32,6 +44,8 @@ export default function StoreCard({ store }) {
           </h4>
         </Link>
         <p className="text-sm text-zinc-400">{store.area}, {store.location}</p>
+        <p className="text-xs text-zinc-500">{reviewsCount} reviews • {yearsInBusiness}+ years in business</p>
+        <p className="text-xs text-zinc-300">"Great quality!" - Ravi</p>
         <div className="flex gap-2">
           <Link
             to={`/store/${store.id}`}

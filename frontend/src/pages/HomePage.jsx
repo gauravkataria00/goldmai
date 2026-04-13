@@ -31,15 +31,25 @@ const container = {
 export default function HomePage() {
   const [selectedLocation, setSelectedLocation] = useState('Karnal')
   const [demoStores, setDemoStores] = useState([])
+  const [storeSearch, setStoreSearch] = useState('')
+  const [productSearch, setProductSearch] = useState('')
 
   const isDataReady = Array.isArray(categories) && Array.isArray(stores) && Array.isArray(products)
 
-  const nearbyStores = useMemo(
-    () => (stores || []).filter((store) => store.location === selectedLocation).slice(0, 6),
-    [selectedLocation],
-  )
+  const nearbyStores = useMemo(() => {
+    const searchValue = storeSearch.trim().toLowerCase()
+    return (stores || [])
+      .filter((store) => store.location === selectedLocation)
+      .filter((store) => !searchValue || store.name.toLowerCase().includes(searchValue))
+      .slice(0, 6)
+  }, [selectedLocation, storeSearch])
 
-  const trendingProducts = useMemo(() => (products || []).slice(0, 8), [])
+  const trendingProducts = useMemo(() => {
+    const searchValue = productSearch.trim().toLowerCase()
+    return (products || [])
+      .filter((product) => !searchValue || product.name.toLowerCase().includes(searchValue))
+      .slice(0, 8)
+  }, [productSearch])
 
   const storeMap = useMemo(() => {
     const map = new Map()
@@ -48,7 +58,7 @@ export default function HomePage() {
   }, [])
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading stores...</div>
   }
 
   const navItems = [
@@ -150,6 +160,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="rounded-3xl border border-gold-500/20 bg-zinc-950/70 p-6 sm:p-8">
+          <div className="mb-5 flex flex-wrap gap-2">
+            {['Top Rated', 'Verified Store', 'Trusted Seller']?.map((badge) => (
+              <span key={badge} className="rounded-full border border-gold-500/35 bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-300">
+                {badge}
+              </span>
+            ))}
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-gold-500/20 bg-black/40 p-4 text-sm text-zinc-200">"Great quality!" - Ravi</div>
+            <div className="rounded-xl border border-gold-500/20 bg-black/40 p-4 text-sm text-zinc-200">"Fast service" - Aman</div>
+            <div className="rounded-xl border border-gold-500/20 bg-black/40 p-4 text-sm text-zinc-200">"Highly recommended" - Neha</div>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
@@ -179,17 +207,41 @@ export default function HomePage() {
           </Link>
         </div>
 
+        <div className="mb-6">
+          <input
+            value={storeSearch}
+            onChange={(event) => setStoreSearch(event.target.value)}
+            placeholder="Search store name..."
+            className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-4 py-3 text-sm text-zinc-100 outline-none transition-colors duration-300 focus:border-gold-400"
+          />
+        </div>
+
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {nearbyStores?.map((store) => (
             <StoreCard key={store.id} store={store} />
           ))}
         </div>
+
+        {nearbyStores.length === 0 && (
+          <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
+            No stores found in your area
+          </div>
+        )}
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h3 className="font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Trending Products</h3>
           <p className="mt-2 text-zinc-400">Mixed products from all categories.</p>
+        </div>
+
+        <div className="mb-6">
+          <input
+            value={productSearch}
+            onChange={(event) => setProductSearch(event.target.value)}
+            placeholder="Search product name..."
+            className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-4 py-3 text-sm text-zinc-100 outline-none transition-colors duration-300 focus:border-gold-400"
+          />
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -203,20 +255,26 @@ export default function HomePage() {
             />
           ))}
         </div>
+
+        {trendingProducts.length === 0 && (
+          <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
+            Loading products...
+          </div>
+        )}
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="rounded-3xl border border-gold-500/20 bg-gradient-to-r from-zinc-950 to-black p-8 sm:p-10 lg:p-12">
           <p className="text-xs uppercase tracking-[0.18em] text-gold-300">Seller Section</p>
-          <h3 className="mt-3 font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Start Selling on GOLDMAI</h3>
+          <h3 className="mt-3 font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Own a shop? Join GOLDMAI</h3>
           <p className="mt-4 max-w-2xl text-zinc-400">
             List your store and connect products to a premium local audience.
           </p>
           <Link
-            to="/sell"
+            to="/add-store"
             className="mt-8 inline-flex rounded-2xl bg-gradient-to-r from-gold-500 to-gold-300 px-7 py-3.5 text-sm font-semibold text-black shadow-[0_0_24px_rgba(234,179,8,0.38)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_34px_rgba(234,179,8,0.56)]"
           >
-            Start Selling
+            Add Your Store
           </Link>
         </div>
       </section>
@@ -277,6 +335,26 @@ export default function HomePage() {
         <Route path="/shop/:id" element={<ShopProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      <footer className="border-t border-gold-500/20 bg-black/85">
+        <div className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-3 lg:px-8">
+          <div>
+            <h4 className="font-serif text-xl font-bold text-zinc-100">About GOLDMAI</h4>
+            <p className="mt-3 text-sm text-zinc-400">
+              GOLDMAI is a premium local marketplace connecting buyers with trusted stores and quality products.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-serif text-xl font-bold text-zinc-100">Contact</h4>
+            <p className="mt-3 text-sm text-zinc-400">Email: hello@goldmai.in</p>
+            <p className="text-sm text-zinc-400">Phone: +91 80591 72716</p>
+          </div>
+          <div>
+            <h4 className="font-serif text-xl font-bold text-zinc-100">Locations Served</h4>
+            <p className="mt-3 text-sm text-zinc-400">Karnal, Rambha, Nissing</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

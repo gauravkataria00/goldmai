@@ -7,6 +7,7 @@ export default function ExplorePage({ selectedLocation }) {
   const [locationFilter, setLocationFilter] = useState(selectedLocation || 'Karnal')
   const [categoryFilter, setCategoryFilter] = useState('All')
   const [priceFilter, setPriceFilter] = useState('All')
+  const [searchFilter, setSearchFilter] = useState('')
   const isDataReady = Array.isArray(products) && Array.isArray(shops) && Array.isArray(locations)
 
   const categories = useMemo(() => ['All', ...Array.from(new Set((products || [])?.map((product) => product.category)))], [])
@@ -18,22 +19,24 @@ export default function ExplorePage({ selectedLocation }) {
   }, [])
 
   const visibleProducts = useMemo(() => {
+    const searchValue = searchFilter.trim().toLowerCase()
     return (products || []).filter((product) => {
       const productShop = shopById.get(product.shopId)
       const locationMatch = locationFilter === 'All' || productShop?.location === locationFilter
       const categoryMatch = categoryFilter === 'All' || product.category === categoryFilter
+      const searchMatch = !searchValue || product.name.toLowerCase().includes(searchValue)
       const priceMatch =
         priceFilter === 'All' ||
         (priceFilter === 'under3000' && product.price < 3000) ||
         (priceFilter === '3000to6000' && product.price >= 3000 && product.price <= 6000) ||
         (priceFilter === 'above6000' && product.price > 6000)
 
-      return locationMatch && categoryMatch && priceMatch
+      return locationMatch && categoryMatch && priceMatch && searchMatch
     })
-  }, [locationFilter, categoryFilter, priceFilter, shopById])
+  }, [locationFilter, categoryFilter, priceFilter, shopById, searchFilter])
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading products...</div>
   }
 
   return (
@@ -41,6 +44,15 @@ export default function ExplorePage({ selectedLocation }) {
       <div className="mb-8">
         <h2 className="font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Explore Premium Products</h2>
         <p className="mt-2 text-zinc-400">Discover detailed listings curated for local luxury fashion buyers.</p>
+      </div>
+
+      <div className="mb-6">
+        <input
+          value={searchFilter}
+          onChange={(event) => setSearchFilter(event.target.value)}
+          placeholder="Search product name..."
+          className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-4 py-3 text-sm text-zinc-100 outline-none focus:border-gold-400"
+        />
       </div>
 
       <div className="mb-8 grid gap-4 rounded-2xl border border-gold-500/20 bg-zinc-950/60 p-4 sm:grid-cols-3 sm:p-5">
@@ -96,6 +108,12 @@ export default function ExplorePage({ selectedLocation }) {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+
+      {visibleProducts.length === 0 && (
+        <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
+          Loading products...
+        </div>
+      )}
     </section>
   )
 }

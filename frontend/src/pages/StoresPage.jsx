@@ -8,6 +8,7 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
   const [locationFilter, setLocationFilter] = useState(selectedLocation || 'Karnal')
   const [categoryFilter, setCategoryFilter] = useState('All')
   const [ratingFilter, setRatingFilter] = useState('All')
+  const [searchFilter, setSearchFilter] = useState('')
   const isDataReady = Array.isArray(shops) && Array.isArray(locations)
   const areDemoStoresReady = Array.isArray(demoStores)
 
@@ -23,20 +24,22 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
   }, [])
 
   const visibleShops = useMemo(() => {
+    const searchValue = searchFilter.trim().toLowerCase()
     return (shops || []).filter((shop) => {
       const locationMatch = locationFilter === 'All' || shop.location === locationFilter
       const categoryMatch = categoryFilter === 'All' || shop.categories.includes(categoryFilter)
+      const searchMatch = !searchValue || shop.name.toLowerCase().includes(searchValue)
       const ratingMatch =
         ratingFilter === 'All' ||
         (ratingFilter === '4+' && shop.rating >= 4) ||
         (ratingFilter === '4.5+' && shop.rating >= 4.5)
 
-      return locationMatch && categoryMatch && ratingMatch
+      return locationMatch && categoryMatch && ratingMatch && searchMatch
     })
-  }, [locationFilter, categoryFilter, ratingFilter])
+  }, [locationFilter, categoryFilter, ratingFilter, searchFilter])
 
   if (!isDataReady || !areDemoStoresReady) {
-    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading stores...</div>
   }
 
   return (
@@ -46,6 +49,15 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
           <h2 className="font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Nearby Premium Stores</h2>
           <p className="mt-2 text-zinc-400">Detailed local marketplace for curated fashion shops.</p>
         </div>
+      </div>
+
+      <div className="mb-6">
+        <input
+          value={searchFilter}
+          onChange={(event) => setSearchFilter(event.target.value)}
+          placeholder="Search store name..."
+          className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-4 py-3 text-sm text-zinc-100 outline-none transition-colors duration-300 focus:border-gold-400"
+        />
       </div>
 
       <div className="mb-8 grid gap-4 rounded-2xl border border-gold-500/20 bg-zinc-950/60 p-4 sm:grid-cols-3 sm:p-5">
@@ -103,7 +115,7 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
 
       {visibleShops.length === 0 && (
         <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
-          No stores matched this filter combination.
+          No stores found in your area
         </div>
       )}
 
