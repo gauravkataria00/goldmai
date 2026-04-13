@@ -15,7 +15,7 @@ export default function SellPage() {
         </p>
 
         <ul className="mt-8 space-y-3">
-          {benefits.map((benefit) => (
+          {benefits?.map((benefit) => (
             <li key={benefit} className="rounded-xl border border-gold-500/20 bg-black/40 px-4 py-3 text-zinc-200">
               ✓ {benefit}
             </li>

@@ -6,14 +6,23 @@ import ProductCard from '../components/ProductCard'
 
 export default function ShopProfilePage() {
   const { id } = useParams()
-  const shop = shops.find((entry) => entry.id === id)
+  const isDataReady = Array.isArray(shops) && Array.isArray(products)
+  const shop = (shops || []).find((entry) => entry.id === id)
+  const [selectedGalleryImage, setSelectedGalleryImage] = useState(shop?.gallery?.[0] || shop?.image || '')
+
+  if (!isDataReady) {
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+  }
+
+  if (!id) {
+    return <Navigate to="/stores" replace />
+  }
 
   if (!shop) {
     return <Navigate to="/stores" replace />
   }
 
-  const shopProducts = products.filter((product) => product.shopId === shop.id)
-  const [selectedGalleryImage, setSelectedGalleryImage] = useState(shop.gallery?.[0] || shop.image)
+  const shopProducts = (products || []).filter((product) => product.shopId === shop.id)
   const whatsappText = encodeURIComponent(`I'm interested in products from ${shop.name}`)
 
   return (
@@ -52,7 +61,7 @@ export default function ShopProfilePage() {
             <p className="leading-relaxed text-zinc-300">{shop.description}</p>
 
             <div className="flex flex-wrap gap-2">
-              {shop.categories.map((category) => (
+              {shop.categories?.map((category) => (
                 <span key={category} className="rounded-full border border-gold-500/30 bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-300">
                   {category}
                 </span>
@@ -60,7 +69,7 @@ export default function ShopProfilePage() {
             </div>
 
             <a
-              href={`https://wa.me/91${shop.whatsappNumber.replace(/^91/, '')}?text=${whatsappText}`}
+              href={`https://wa.me/91${shop.whatsappNumber?.replace(/^91/, '') || ''}?text=${whatsappText}`}
               target="_blank"
               rel="noreferrer"
               className="inline-flex rounded-xl bg-gradient-to-r from-gold-500 to-gold-300 px-6 py-3 font-semibold text-black transition-all duration-300 hover:scale-[1.02]"
@@ -74,7 +83,7 @@ export default function ShopProfilePage() {
               <img src={selectedGalleryImage} alt={`${shop.name} gallery`} className="h-56 w-full object-cover sm:h-64" />
             </div>
             <div className="mt-3 grid grid-cols-4 gap-2">
-              {(shop.gallery || []).slice(0, 4).map((galleryImage) => (
+              {(shop.gallery || []).slice(0, 4)?.map((galleryImage) => (
                 <button
                   key={galleryImage}
                   type="button"
@@ -98,7 +107,7 @@ export default function ShopProfilePage() {
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {shopProducts.map((product) => (
+          {shopProducts?.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

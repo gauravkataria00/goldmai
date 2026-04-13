@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom'
 
 export default function ProductCard({ product }) {
+  if (!product) {
+    return <div className="rounded-xl border border-gold-500/20 bg-zinc-950/70 p-4 text-zinc-300">Loading...</div>
+  }
+
   return (
     <Link
       to={`/product/${product.id}`}
@@ -20,6 +24,7 @@ export default function ProductCard({ product }) {
       <div className="space-y-2 p-4">
         <h4 className="line-clamp-1 font-medium text-zinc-100">{product.name}</h4>
         <p className="text-sm text-zinc-400">{product.category}</p>
+        {product.storeName && <p className="text-xs text-zinc-500">{product.storeName}</p>}
         <p className="text-xs text-zinc-400">
           ⭐ {product.rating} ({product.reviewsCount})
         </p>

@@ -7,17 +7,18 @@ export default function ExplorePage({ selectedLocation }) {
   const [locationFilter, setLocationFilter] = useState(selectedLocation || 'Karnal')
   const [categoryFilter, setCategoryFilter] = useState('All')
   const [priceFilter, setPriceFilter] = useState('All')
+  const isDataReady = Array.isArray(products) && Array.isArray(shops) && Array.isArray(locations)
 
-  const categories = useMemo(() => ['All', ...Array.from(new Set(products.map((product) => product.category)))], [])
+  const categories = useMemo(() => ['All', ...Array.from(new Set((products || [])?.map((product) => product.category)))], [])
 
   const shopById = useMemo(() => {
     const map = new Map()
-    shops.forEach((shop) => map.set(shop.id, shop))
+    ;(shops || []).forEach((shop) => map.set(shop.id, shop))
     return map
   }, [])
 
   const visibleProducts = useMemo(() => {
-    return products.filter((product) => {
+    return (products || []).filter((product) => {
       const productShop = shopById.get(product.shopId)
       const locationMatch = locationFilter === 'All' || productShop?.location === locationFilter
       const categoryMatch = categoryFilter === 'All' || product.category === categoryFilter
@@ -30,6 +31,10 @@ export default function ExplorePage({ selectedLocation }) {
       return locationMatch && categoryMatch && priceMatch
     })
   }, [locationFilter, categoryFilter, priceFilter, shopById])
+
+  if (!isDataReady) {
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+  }
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -46,7 +51,7 @@ export default function ExplorePage({ selectedLocation }) {
             onChange={(event) => setLocationFilter(event.target.value)}
             className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-gold-400"
           >
-            {['All', ...locations].map((location) => (
+            {['All', ...locations]?.map((location) => (
               <option key={location} value={location}>
                 {location}
               </option>
@@ -61,7 +66,7 @@ export default function ExplorePage({ selectedLocation }) {
             onChange={(event) => setCategoryFilter(event.target.value)}
             className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-gold-400"
           >
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
@@ -87,7 +92,7 @@ export default function ExplorePage({ selectedLocation }) {
       <p className="mb-5 text-sm text-zinc-400">{visibleProducts.length} products found</p>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {visibleProducts.map((product) => (
+        {visibleProducts?.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

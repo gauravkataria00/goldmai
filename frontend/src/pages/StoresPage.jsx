@@ -2,11 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { shops } from '../data/shops'
 import ShopCard from '../components/ShopCard'
 import { locations } from '../data/shops'
+import StoreCard from '../components/StoreCard'
 
-export default function StoresPage({ selectedLocation }) {
+export default function StoresPage({ selectedLocation, demoStores = [] }) {
   const [locationFilter, setLocationFilter] = useState(selectedLocation || 'Karnal')
   const [categoryFilter, setCategoryFilter] = useState('All')
   const [ratingFilter, setRatingFilter] = useState('All')
+  const isDataReady = Array.isArray(shops) && Array.isArray(locations)
+  const areDemoStoresReady = Array.isArray(demoStores)
 
   useEffect(() => {
     if (selectedLocation) {
@@ -15,12 +18,12 @@ export default function StoresPage({ selectedLocation }) {
   }, [selectedLocation])
 
   const categoryOptions = useMemo(() => {
-    const uniqueCategories = new Set(shops.flatMap((shop) => shop.categories))
+    const uniqueCategories = new Set((shops || []).flatMap((shop) => shop.categories || []))
     return ['All', ...Array.from(uniqueCategories)]
   }, [])
 
   const visibleShops = useMemo(() => {
-    return shops.filter((shop) => {
+    return (shops || []).filter((shop) => {
       const locationMatch = locationFilter === 'All' || shop.location === locationFilter
       const categoryMatch = categoryFilter === 'All' || shop.categories.includes(categoryFilter)
       const ratingMatch =
@@ -31,6 +34,10 @@ export default function StoresPage({ selectedLocation }) {
       return locationMatch && categoryMatch && ratingMatch
     })
   }, [locationFilter, categoryFilter, ratingFilter])
+
+  if (!isDataReady || !areDemoStoresReady) {
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+  }
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -49,7 +56,7 @@ export default function StoresPage({ selectedLocation }) {
             onChange={(event) => setLocationFilter(event.target.value)}
             className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-gold-400"
           >
-            {['All', ...locations].map((location) => (
+            {['All', ...locations]?.map((location) => (
               <option key={location} value={location}>
                 {location}
               </option>
@@ -64,7 +71,7 @@ export default function StoresPage({ selectedLocation }) {
             onChange={(event) => setCategoryFilter(event.target.value)}
             className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-gold-400"
           >
-            {categoryOptions.map((category) => (
+            {categoryOptions?.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
@@ -89,7 +96,7 @@ export default function StoresPage({ selectedLocation }) {
       <p className="mb-5 text-sm text-zinc-400">{visibleShops.length} stores found</p>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {visibleShops.map((shop) => (
+        {visibleShops?.map((shop) => (
           <ShopCard key={shop.id} shop={shop} />
         ))}
       </div>
@@ -97,6 +104,23 @@ export default function StoresPage({ selectedLocation }) {
       {visibleShops.length === 0 && (
         <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
           No stores matched this filter combination.
+        </div>
+      )}
+
+      {demoStores.length > 0 && (
+        <div className="mt-14">
+          <div className="mb-6 flex items-end justify-between gap-3">
+            <div>
+              <h3 className="font-serif text-2xl font-bold text-zinc-50 sm:text-3xl">Your Demo Stores</h3>
+              <p className="mt-2 text-zinc-400">Stores added from the Add Store form in this session.</p>
+            </div>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {demoStores?.map((store) => (
+              <StoreCard key={store.id} store={store} />
+            ))}
+          </div>
         </div>
       )}
     </section>

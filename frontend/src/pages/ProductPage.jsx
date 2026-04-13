@@ -5,13 +5,23 @@ import { shops } from '../data/shops'
 
 export default function ProductPage() {
   const { id } = useParams()
-  const product = products.find((entry) => entry.id === id)
+  const isDataReady = Array.isArray(products) && Array.isArray(shops)
+
+  if (!isDataReady) {
+    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading...</div>
+  }
+
+  if (!id) {
+    return <Navigate to="/stores" replace />
+  }
+
+  const product = (products || []).find((entry) => entry.id === id)
 
   if (!product) {
     return <Navigate to="/stores" replace />
   }
 
-  const shop = shops.find((entry) => entry.id === product.shopId)
+  const shop = (shops || []).find((entry) => entry.id === product.shopId)
 
   if (!shop) {
     return <Navigate to="/stores" replace />
@@ -29,7 +39,7 @@ export default function ProductPage() {
           <div>
             <img src={selectedImage} alt={product.name} className="h-80 w-full rounded-xl object-cover sm:h-[420px]" />
             <div className="mt-3 grid grid-cols-4 gap-2">
-              {(product.images || []).slice(0, 4).map((galleryImage) => (
+              {(product.images || []).slice(0, 4)?.map((galleryImage) => (
                 <button
                   key={galleryImage}
                   type="button"
@@ -60,7 +70,7 @@ export default function ProductPage() {
             <div>
               <p className="mb-2 text-sm text-zinc-400">Select Size</p>
               <div className="flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
+                {product.sizes?.map((size) => (
                   <button
                     key={size}
                     type="button"
@@ -76,7 +86,7 @@ export default function ProductPage() {
             <div>
               <p className="mb-2 text-sm text-zinc-400">Available Colors</p>
               <div className="flex flex-wrap gap-2">
-                {product.colors.map((color) => (
+                {product.colors?.map((color) => (
                   <button
                     key={color}
                     type="button"
@@ -102,7 +112,7 @@ export default function ProductPage() {
             </p>
 
             <a
-              href={`https://wa.me/91${shop.whatsappNumber.replace(/^91/, '')}?text=${whatsappText}`}
+              href={`https://wa.me/91${shop.whatsappNumber?.replace(/^91/, '') || ''}?text=${whatsappText}`}
               target="_blank"
               rel="noreferrer"
               className="inline-flex rounded-xl bg-gradient-to-r from-gold-500 to-gold-300 px-6 py-3 font-semibold text-black transition-all duration-300 hover:scale-[1.02]"

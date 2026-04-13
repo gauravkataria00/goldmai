@@ -245,7 +245,7 @@ function ComingSoon() {
             </p>
 
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {countdownUnits.map((unit) => (
+              {countdownUnits?.map((unit) => (
                 <motion.div
                   key={unit.label}
                   variants={timerVariants}
@@ -268,7 +268,7 @@ function ComingSoon() {
         </motion.div>
 
         <motion.div variants={itemVariants} className="grid gap-4 sm:grid-cols-3">
-          {features.map((feature, index) => (
+          {features?.map((feature, index) => (
             <motion.div
               key={feature.title}
               variants={itemVariants}
