@@ -63,7 +63,7 @@ function ComingSoon() {
 
   useEffect(() => {
     const launchDate = new Date()
-    launchDate.setDate(launchDate.getDate() + 45)
+    launchDate.setDate(launchDate.getDate() + 2)
     launchDate.setHours(23, 59, 59, 999)
 
     const updateTimer = () => {
