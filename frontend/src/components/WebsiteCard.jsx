@@ -10,7 +10,7 @@ export default function WebsiteCard({ website }) {
     >
       <Link
         to={`/site/${website.id}`}
-        className="flex h-full flex-col overflow-hidden rounded-2xl border border-gold-500/25 bg-zinc-950/90 shadow-[0_0_22px_rgba(234,179,8,0.08)] transition-all duration-300 hover:border-gold-400/60 hover:shadow-[0_0_28px_rgba(234,179,8,0.22)]"
+        className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-[0_0_22px_rgba(234,179,8,0.08)] transition-all duration-300 hover:border-gold-400/60 hover:shadow-[0_0_28px_rgba(234,179,8,0.22)] dark:border-yellow-500/20 dark:bg-zinc-900"
       >
         <div className="relative h-44 overflow-hidden">
           <img
@@ -26,10 +26,10 @@ export default function WebsiteCard({ website }) {
         </div>
 
         <div className="flex flex-1 flex-col p-5">
-          <h4 className="font-serif text-xl font-bold text-zinc-50 transition-colors duration-300 group-hover:text-gold-300">
+          <h4 className="font-serif text-xl font-bold text-black transition-colors duration-300 group-hover:text-gold-300 dark:text-white">
             {website.name}
           </h4>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+          <p className="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
             {website.description}
           </p>
           <span className="mt-5 inline-flex items-center text-sm font-semibold text-gold-300">

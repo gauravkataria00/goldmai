@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, NavLink, Navigate, Route, Routes } from 'react-router-dom'
 import CategoryCard from '../components/CategoryCard'
 import StoreCard from '../components/StoreCard'
@@ -15,51 +15,33 @@ import SellPage from './SellPage'
 import WebsiteDetail from './WebsiteDetail'
 import AddStorePage from './AddStorePage'
 import { categories } from '../data/categories'
-import { storeLocations, stores } from '../data/stores'
+import { getStoresWithFallback, storeLocations, stores } from '../data/stores'
 import { products } from '../data/products'
+import {
+  getCustomerReviewsMock,
+  getFeaturedStores,
+  getRecentlyViewedMock,
+  getTopRatedStores,
+} from '../data/showroomEngine'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
 }
 
 const container = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.07, delayChildren: 0.04 } },
 }
 
 export default function HomePage() {
-  const [selectedLocation, setSelectedLocation] = useState('Karnal')
+  const [selectedLocation, setSelectedLocation] = useState('All')
   const [demoStores, setDemoStores] = useState([])
   const [storeSearch, setStoreSearch] = useState('')
   const [productSearch, setProductSearch] = useState('')
+  const [theme, setTheme] = useState('dark')
 
   const isDataReady = Array.isArray(categories) && Array.isArray(stores) && Array.isArray(products)
-
-  const nearbyStores = useMemo(() => {
-    const searchValue = storeSearch.trim().toLowerCase()
-    return (stores || [])
-      .filter((store) => store.location === selectedLocation)
-      .filter((store) => !searchValue || store.name.toLowerCase().includes(searchValue))
-      .slice(0, 6)
-  }, [selectedLocation, storeSearch])
-
-  const trendingProducts = useMemo(() => {
-    const searchValue = productSearch.trim().toLowerCase()
-    return (products || [])
-      .filter((product) => !searchValue || product.name.toLowerCase().includes(searchValue))
-      .slice(0, 8)
-  }, [productSearch])
-
-  const storeMap = useMemo(() => {
-    const map = new Map()
-    ;(stores || []).forEach((store) => map.set(store.id, store))
-    return map
-  }, [])
-
-  if (!isDataReady) {
-    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading stores...</div>
-  }
 
   const navItems = [
     { label: 'Home', to: '/' },
@@ -69,6 +51,61 @@ export default function HomePage() {
     { label: 'Sell', to: '/sell' },
   ]
 
+  const allStores = useMemo(() => [...demoStores, ...stores], [demoStores])
+
+  const locationStores = useMemo(
+    () => getStoresWithFallback(selectedLocation, allStores),
+    [allStores, selectedLocation],
+  )
+
+  const featuredStores = useMemo(() => {
+    const list = getFeaturedStores(allStores)
+    return list.length > 0 ? list.slice(0, 6) : getTopRatedStores(allStores).slice(0, 6)
+  }, [allStores])
+
+  const topRatedStores = useMemo(() => getTopRatedStores(allStores).slice(0, 6), [allStores])
+
+  const nearbyStores = useMemo(() => {
+    const searchValue = storeSearch.trim().toLowerCase()
+    if (!searchValue) {
+      return locationStores.slice(0, 6)
+    }
+
+    const matched = locationStores.filter((store) => store.name.toLowerCase().includes(searchValue))
+    return matched.length > 0 ? matched.slice(0, 6) : locationStores.slice(0, 6)
+  }, [locationStores, storeSearch])
+
+  const trendingProducts = useMemo(() => {
+    const searchValue = productSearch.trim().toLowerCase()
+    const byPerformance = [...products].sort((a, b) => {
+      const firstScore = a.rating * 10 + a.discountPercent
+      const secondScore = b.rating * 10 + b.discountPercent
+      return secondScore - firstScore
+    })
+
+    const groupedByCategory = ['Fashion', 'Food', 'Electronics', 'Services'].flatMap((category) =>
+      byPerformance.filter((product) => product.category === category).slice(0, 4),
+    )
+
+    const baseList = groupedByCategory.length > 0 ? groupedByCategory : byPerformance.slice(0, 16)
+
+    if (!searchValue) {
+      return baseList.slice(0, 12)
+    }
+
+    const matched = baseList.filter((product) => product.name.toLowerCase().includes(searchValue))
+    return matched.length > 0 ? matched.slice(0, 12) : baseList.slice(0, 12)
+  }, [productSearch])
+
+  const recentlyViewedProducts = useMemo(() => getRecentlyViewedMock(products).slice(0, 8), [])
+  const customerReviews = useMemo(() => getCustomerReviewsMock(allStores), [allStores])
+
+  const storeMap = useMemo(() => {
+    const map = new Map()
+    allStores.forEach((store) => map.set(store.id, store))
+    return map
+  }, [allStores])
+
   const handleAddDemoStore = (storePayload) => {
     if (!storePayload) {
       return
@@ -77,24 +114,50 @@ export default function HomePage() {
     const nextStore = {
       ...storePayload,
       id: `demo-${Date.now()}`,
-      image:
-        storePayload.image ||
-        'https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?auto=format&fit=crop&w=1200&q=80',
+      coverImage: storePayload.coverImage || storePayload.image || 'https://loremflickr.com/900/700/fashion,store?lock=9991',
+      galleryImages: storePayload.galleryImages || [storePayload.coverImage || storePayload.image || 'https://loremflickr.com/900/700/fashion,store?lock=9991'],
       rating: 4.5,
+      cashback: 90,
+      cashbackOffer: 'Get ₹90 cashback',
+      cashbackLeft: 7,
+      peopleSavedToday: 26,
+      tags: ['Top Rated', 'Trusted Seller', 'Verified'],
+      distance: storePayload.distance || '1.2 km away',
+      totalReviews: 36,
       categories: [storePayload.category || 'General'],
-      totalReviews: 0,
     }
 
-    setDemoStores((prevStores) => [nextStore, ...prevStores])
+    setDemoStores((previousStores) => [nextStore, ...previousStores])
+  }
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark'
+    setTheme(savedTheme)
+  }, [])
+
+  useEffect(() => {
+    const root = document.documentElement
+
+    if (theme === 'dark') {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  if (!isDataReady) {
+    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading showroom...</div>
   }
 
   const HomeLanding = () => (
     <>
-      <section className="relative isolate overflow-hidden bg-black">
+      <section className="relative isolate overflow-hidden bg-white dark:bg-black">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=80"
-            alt="GOLDMAI marketplace background"
+            src="https://loremflickr.com/1600/900/fashion,market?lock=20001"
+            alt="GOLDMAI digital showroom"
             className="h-full w-full object-cover opacity-20"
             loading="lazy"
           />
@@ -104,28 +167,29 @@ export default function HomePage() {
 
         <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-24">
           <motion.div variants={container} initial="hidden" animate="visible" className="max-w-3xl">
-            <motion.p variants={fadeUp} className="inline-flex rounded-full border border-gold-500/20 bg-black/50 px-4 py-2 text-xs uppercase tracking-[0.18em] text-gold-300">
-              Trusted local marketplace
+            <motion.p variants={fadeUp} className="inline-flex rounded-full border border-gold-500/20 bg-white/85 px-4 py-2 text-xs uppercase tracking-[0.18em] text-gold-300 dark:bg-black/50">
+              Startup-ready digital showroom
             </motion.p>
 
-            <motion.h2 variants={fadeUp} className="mt-5 font-serif text-4xl font-bold leading-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-              GOLDMAI — Discover Everything Around You
+            <motion.h2 variants={fadeUp} className="mt-5 font-serif text-4xl font-bold leading-tight tracking-[0.015em] text-black dark:text-white md:text-6xl">
+              Discover real stores. Explore like a <span className="text-gold-300">showroom.</span>
             </motion.h2>
 
-            <motion.p variants={fadeUp} className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-300 sm:text-lg">
-              Find trusted local stores around you across fashion, food, electronics, and more.
+            <motion.p variants={fadeUp} className="mt-5 max-w-2xl text-base leading-relaxed text-gray-600 dark:text-gray-400 sm:text-lg">
+              Walk through nearby stores, explore real products, and experience your city digitally.
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end">
               <div className="w-full sm:max-w-xs">
-                <label className="mb-2 block text-xs uppercase tracking-[0.14em] text-zinc-400">Location</label>
+                <label className="mb-2 block text-xs uppercase tracking-[0.14em] text-gray-600 dark:text-gray-400">Location</label>
                 <select
                   value={selectedLocation}
                   onChange={(event) => setSelectedLocation(event.target.value)}
-                  className="w-full rounded-2xl border border-gold-500/25 bg-zinc-950/90 px-4 py-3 text-sm text-zinc-100 outline-none transition-colors duration-300 focus:border-gold-400"
+                  className="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-black outline-none transition-colors duration-300 focus:border-gold-400 dark:border-yellow-500/20 dark:bg-zinc-950/90 dark:text-white"
                   aria-label="Select location"
                 >
-                  {storeLocations?.map((location) => (
+                  <option value="All">All</option>
+                  {storeLocations.map((location) => (
                     <option key={location} value={location}>
                       {location}
                     </option>
@@ -134,25 +198,25 @@ export default function HomePage() {
               </div>
 
               <Link
-                to="/categories"
-                className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-gold-500 to-gold-300 px-7 py-3.5 text-sm font-semibold text-black shadow-[0_0_24px_rgba(234,179,8,0.38)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_34px_rgba(234,179,8,0.56)]"
+                to="/stores"
+                className="inline-flex items-center justify-center rounded-2xl bg-yellow-500 px-7 py-3.5 text-sm font-semibold text-black transition-colors duration-300 hover:bg-yellow-400"
               >
-                Explore Now
+                Explore Showroom
               </Link>
             </motion.div>
           </motion.div>
 
-          <motion.div variants={container} initial="hidden" animate="visible" className="grid gap-4 rounded-3xl border border-gold-500/20 bg-zinc-950/75 p-5 shadow-[0_0_40px_rgba(234,179,8,0.12)] backdrop-blur-md sm:p-6">
+          <motion.div variants={container} initial="hidden" animate="visible" className="grid gap-4 rounded-3xl border border-gray-200 bg-gray-100 p-5 shadow-[0_0_40px_rgba(234,179,8,0.12)] backdrop-blur-md dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-6">
             <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
               {[
-                { label: 'Categories', value: '04' },
-                { label: 'Stores', value: '12' },
-                { label: 'Products', value: '48' },
-                { label: 'Locations', value: '03' },
-              ]?.map((item) => (
-                <div key={item.label} className="rounded-2xl border border-gold-500/15 bg-black/60 px-4 py-5 text-center">
+                { label: 'Locations', value: String(storeLocations.length).padStart(2, '0') },
+                { label: 'Stores', value: String(allStores.length) },
+                { label: 'Products', value: String(products.length) },
+                { label: 'Categories', value: String(categories.length).padStart(2, '0') },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-gray-200 bg-gray-100 px-4 py-5 text-center dark:border-yellow-500/20 dark:bg-black/60">
                   <div className="text-2xl font-bold text-gold-300">{item.value}</div>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.12em] text-zinc-400">{item.label}</div>
+                  <div className="mt-1 text-[11px] uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400">{item.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -160,92 +224,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-gold-500/20 bg-zinc-950/70 p-6 sm:p-8">
-          <div className="mb-5 flex flex-wrap gap-2">
-            {['Top Rated', 'Verified Store', 'Trusted Seller']?.map((badge) => (
-              <span key={badge} className="rounded-full border border-gold-500/35 bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-300">
-                {badge}
-              </span>
-            ))}
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl border border-gold-500/20 bg-black/40 p-4 text-sm text-zinc-200">"Great quality!" - Ravi</div>
-            <div className="rounded-xl border border-gold-500/20 bg-black/40 p-4 text-sm text-zinc-200">"Fast service" - Aman</div>
-            <div className="rounded-xl border border-gold-500/20 bg-black/40 p-4 text-sm text-zinc-200">"Highly recommended" - Neha</div>
-          </div>
-        </div>
-      </section>
-
       <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-end justify-between gap-4">
+        <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <h3 className="font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Categories</h3>
-            <p className="mt-2 text-zinc-400">Browse the marketplace by category.</p>
+            <h3 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Trending Stores & Products Near You</h3>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Discover what people near you are saving on.</p>
           </div>
-          <Link to="/categories" className="inline-flex rounded-xl border border-gold-500/40 px-5 py-2.5 text-sm font-semibold text-gold-300 transition-all duration-300 hover:bg-gold-500/10">
-            View All
-          </Link>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {categories?.map((category) => (
-            <CategoryCard key={category.id} category={category} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-end justify-between gap-4">
-          <div>
-            <h3 className="font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Nearby Stores</h3>
-            <p className="mt-2 text-zinc-400">Stores in {selectedLocation}.</p>
-          </div>
-          <Link to="/stores" className="inline-flex rounded-xl border border-gold-500/40 px-5 py-2.5 text-sm font-semibold text-gold-300 transition-all duration-300 hover:bg-gold-500/10">
-            Browse Stores
-          </Link>
-        </div>
-
-        <div className="mb-6">
-          <input
-            value={storeSearch}
-            onChange={(event) => setStoreSearch(event.target.value)}
-            placeholder="Search store name..."
-            className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-4 py-3 text-sm text-zinc-100 outline-none transition-colors duration-300 focus:border-gold-400"
-          />
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {nearbyStores?.map((store) => (
-            <StoreCard key={store.id} store={store} />
-          ))}
-        </div>
-
-        {nearbyStores.length === 0 && (
-          <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
-            No stores found in your area
-          </div>
-        )}
-      </section>
-
-      <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h3 className="font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Trending Products</h3>
-          <p className="mt-2 text-zinc-400">Mixed products from all categories.</p>
-        </div>
-
-        <div className="mb-6">
+        <div className="mb-5">
           <input
             value={productSearch}
             onChange={(event) => setProductSearch(event.target.value)}
-            placeholder="Search product name..."
-            className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-4 py-3 text-sm text-zinc-100 outline-none transition-colors duration-300 focus:border-gold-400"
+            placeholder="Search trending product..."
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-black outline-none transition-colors duration-300 focus:border-gold-400 dark:border-yellow-500/20 dark:bg-black/60 dark:text-white"
           />
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {trendingProducts?.map((product) => (
+          {trendingProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={{
@@ -255,44 +252,182 @@ export default function HomePage() {
             />
           ))}
         </div>
-
-        {trendingProducts.length === 0 && (
-          <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
-            Loading products...
-          </div>
-        )}
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-gold-500/20 bg-gradient-to-r from-zinc-950 to-black p-8 sm:p-10 lg:p-12">
-          <p className="text-xs uppercase tracking-[0.18em] text-gold-300">Seller Section</p>
-          <h3 className="mt-3 font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Own a shop? Join GOLDMAI</h3>
-          <p className="mt-4 max-w-2xl text-zinc-400">
-            List your store and connect products to a premium local audience.
-          </p>
-          <Link
-            to="/add-store"
-            className="mt-8 inline-flex rounded-2xl bg-gradient-to-r from-gold-500 to-gold-300 px-7 py-3.5 text-sm font-semibold text-black shadow-[0_0_24px_rgba(234,179,8,0.38)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_34px_rgba(234,179,8,0.56)]"
-          >
-            Add Your Store
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <h3 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Pay Nearby. Save Instantly.</h3>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Real stores. Real savings. No coupons needed.</p>
+          </div>
+          <Link to="/stores" className="inline-flex rounded-xl border border-gold-500/40 px-5 py-2.5 text-sm font-semibold text-gold-300 transition-all duration-300 hover:bg-gold-500/10">
+            Find Cashback Stores
           </Link>
+        </div>
+
+        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredStores.map((store) => (
+            <StoreCard key={`featured-${store.id}`} store={store} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <h3 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Top Cashback Stores Near You</h3>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Earn cashback every time you pay locally.</p>
+        </div>
+
+        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {topRatedStores.map((store) => (
+            <StoreCard key={`top-${store.id}`} store={store} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl scroll-smooth px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <h3 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Top Cashback Stores Near You</h3>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Based on {selectedLocation}. No match? We show popular cashback stores.</p>
+          </div>
+        </div>
+
+        <div className="mb-5">
+          <input
+            value={storeSearch}
+            onChange={(event) => setStoreSearch(event.target.value)}
+            placeholder="Search nearby store..."
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-black outline-none transition-colors duration-300 focus:border-gold-400 dark:border-yellow-500/20 dark:bg-black/60 dark:text-white"
+          />
+        </div>
+
+        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          {nearbyStores.map((store) => (
+            <StoreCard key={`nearby-${store.id}`} store={store} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <h3 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Recently Viewed</h3>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Pick up where you left off and keep unlocking cashback.</p>
+        </div>
+
+        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {recentlyViewedProducts.map((product) => (
+            <div key={`recent-${product.id}`} className="min-w-[280px] snap-start">
+              <ProductCard
+                product={{
+                  ...product,
+                  storeName: storeMap.get(product.storeId)?.name,
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <h3 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">People Saving With GOLDMAI</h3>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Real buyers, real local payments, real instant cashback.</p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {customerReviews.map((review) => (
+            <article key={review.id} className="rounded-2xl border border-gray-200 bg-gray-100 p-5 dark:border-yellow-500/20 dark:bg-zinc-900">
+              <p className="text-sm text-black dark:text-white">"{review.message}"</p>
+              <p className="mt-3 text-xs font-semibold text-gold-300">⭐ {review.rating}</p>
+              <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{review.name} • {review.location}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <h3 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Where Do You Want to Save Today?</h3>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Choose a category and unlock instant cashback nearby.</p>
+          </div>
+          <Link to="/categories" className="inline-flex rounded-xl border border-gold-500/40 px-5 py-2.5 text-sm font-semibold text-gold-300 transition-all duration-300 hover:bg-gold-500/10">
+            Unlock Cashback
+          </Link>
+        </div>
+
+        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((category) => (
+            <CategoryCard key={category.id} category={category} />
+          ))}
         </div>
       </section>
     </>
   )
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-black text-zinc-100" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'auto' }}>
-      <motion.nav initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="sticky top-0 z-50 border-b border-gold-500/20 bg-black/80 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center gap-4 md:flex-nowrap md:justify-between">
-            <div className="min-w-[170px]">
-              <h1 className="font-serif text-2xl font-bold tracking-wide text-gold-400 sm:text-3xl">GOLDMAI</h1>
-              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 sm:text-xs">Local Digital Marketplace</p>
+    <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
+      <motion.nav
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/80 dark:bg-black/80 border-b border-yellow-500/20"
+      >
+        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="sm:hidden">
+            <div className="flex items-center justify-between px-4 py-2">
+              <h1 className="font-serif text-lg font-bold tracking-wide text-yellow-500">GOLDMAI</h1>
+
+              <div className="flex items-center gap-2">
+                <select
+                  value={selectedLocation}
+                  onChange={(event) => setSelectedLocation(event.target.value)}
+                  className="rounded border border-yellow-500/30 bg-transparent px-2 py-1 text-xs text-black outline-none transition-colors duration-300 focus:border-gold-400 dark:text-white"
+                  aria-label="Select location"
+                >
+                  <option value="All">All</option>
+                  {storeLocations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+
+                <button
+                  type="button"
+                  onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+                  className="text-lg text-black dark:text-white"
+                  aria-label="Toggle theme"
+                  title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                >
+                  {theme === 'dark' ? '☀️' : '🌙'}
+                </button>
+              </div>
             </div>
 
-            <div className="order-3 flex w-full justify-center gap-5 text-sm font-medium text-zinc-300 md:order-2 md:w-auto md:gap-8">
-              {navItems?.map((item) => (
+            <div className="flex gap-4 overflow-x-auto px-4 pb-2 text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.label}
+                  to={item.to}
+                  className={({ isActive }) => `whitespace-nowrap transition-colors duration-300 hover:text-gold-400 ${isActive ? 'text-gold-300' : 'text-black dark:text-white'}`}
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden items-center justify-between px-4 py-4 sm:flex">
+            <div className="min-w-[170px]">
+              <h1 className="font-serif text-2xl font-bold tracking-wide text-gold-400 transition-all duration-300 sm:text-3xl">
+                GOLDMAI
+              </h1>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400 sm:text-xs">Local Digital Marketplace</p>
+            </div>
+
+            <div className="flex justify-center gap-8 text-sm font-medium text-black dark:text-white">
+              {navItems.map((item) => (
                 <NavLink
                   key={item.label}
                   to={item.to}
@@ -303,58 +438,71 @@ export default function HomePage() {
               ))}
             </div>
 
-            <div className="order-2 ml-auto flex items-center gap-3 md:order-3 md:ml-0">
+            <div className="flex items-center gap-3">
               <select
                 value={selectedLocation}
                 onChange={(event) => setSelectedLocation(event.target.value)}
-                className="rounded-full border border-gold-500/25 bg-zinc-950/90 px-3 py-2 text-xs text-zinc-200 outline-none transition-colors duration-300 focus:border-gold-400"
+                className="rounded-full border border-gold-500/25 bg-white/90 px-3 py-2 text-xs text-black outline-none transition-colors duration-300 focus:border-gold-400 dark:bg-zinc-950/90 dark:text-white"
                 aria-label="Select location"
               >
-                {storeLocations?.map((location) => (
+                <option value="All">All</option>
+                {storeLocations.map((location) => (
                   <option key={location} value={location}>
                     {location}
                   </option>
                 ))}
               </select>
+
+              <button
+                type="button"
+                onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
+                className="rounded-full border border-gold-500/30 bg-white/80 px-3 py-2 text-sm text-black transition-colors duration-300 hover:bg-gold-500/10 dark:bg-zinc-950/80 dark:text-white"
+                aria-label="Toggle theme"
+                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              >
+                {theme === 'dark' ? '☀️' : '🌙'}
+              </button>
             </div>
           </div>
         </div>
       </motion.nav>
 
-      <Routes>
-        <Route path="/" element={<HomeLanding />} />
-        <Route path="/categories" element={<CategoriesPage />} />
-        <Route path="/category/:name" element={<CategoryStoresPage />} />
-        <Route path="/store/:id" element={<StoreProfilePage />} />
-        <Route path="/product/:id" element={<ProductDetailPage />} />
-        <Route path="/site/:id" element={<WebsiteDetail />} />
-        <Route path="/explore" element={<ExplorePage selectedLocation={selectedLocation} />} />
-        <Route path="/stores" element={<StoresPage selectedLocation={selectedLocation} demoStores={demoStores} />} />
-        <Route path="/add-store" element={<AddStorePage onAddStore={handleAddDemoStore} />} />
-        <Route path="/sell" element={<SellPage />} />
-        <Route path="/shop/:id" element={<ShopProfilePage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <main className="pt-24 sm:pt-20">
+        <Routes>
+          <Route path="/" element={<HomeLanding />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/category/:name" element={<CategoryStoresPage selectedLocation={selectedLocation} />} />
+          <Route path="/store/:id" element={<StoreProfilePage />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/site/:id" element={<WebsiteDetail />} />
+          <Route path="/explore" element={<ExplorePage selectedLocation={selectedLocation} />} />
+          <Route path="/stores" element={<StoresPage selectedLocation={selectedLocation} demoStores={demoStores} />} />
+          <Route path="/add-store" element={<AddStorePage onAddStore={handleAddDemoStore} />} />
+          <Route path="/sell" element={<SellPage />} />
+          <Route path="/shop/:id" element={<ShopProfilePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
 
-      <footer className="border-t border-gold-500/20 bg-black/85">
-        <div className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-3 lg:px-8">
-          <div>
-            <h4 className="font-serif text-xl font-bold text-zinc-100">About GOLDMAI</h4>
-            <p className="mt-3 text-sm text-zinc-400">
-              GOLDMAI is a premium local marketplace connecting buyers with trusted stores and quality products.
-            </p>
+        <footer className="border-t border-gold-500/20 bg-white/90 dark:bg-black/85">
+          <div className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-3 lg:px-8">
+            <div>
+              <h4 className="font-serif text-xl font-bold text-black dark:text-white">About GOLDMAI</h4>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                GOLDMAI is a premium digital showroom connecting users with trusted local stores and high-conversion cashback offers.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-serif text-xl font-bold text-black dark:text-white">Contact</h4>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">Email: hello@goldmai.in</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Phone: +91 80591 72716</p>
+            </div>
+            <div>
+              <h4 className="font-serif text-xl font-bold text-black dark:text-white">Locations Served</h4>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">{storeLocations.join(', ')}</p>
+            </div>
           </div>
-          <div>
-            <h4 className="font-serif text-xl font-bold text-zinc-100">Contact</h4>
-            <p className="mt-3 text-sm text-zinc-400">Email: hello@goldmai.in</p>
-            <p className="text-sm text-zinc-400">Phone: +91 80591 72716</p>
-          </div>
-          <div>
-            <h4 className="font-serif text-xl font-bold text-zinc-100">Locations Served</h4>
-            <p className="mt-3 text-sm text-zinc-400">Karnal, Rambha, Nissing</p>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      </main>
     </div>
   )
 }

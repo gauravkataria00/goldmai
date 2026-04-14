@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
-import { shops } from '../data/shops'
-import ShopCard from '../components/ShopCard'
-import { locations } from '../data/shops'
 import StoreCard from '../components/StoreCard'
+import { popularStores, storeLocations, stores } from '../data/stores'
 
 export default function StoresPage({ selectedLocation, demoStores = [] }) {
-  const [locationFilter, setLocationFilter] = useState(selectedLocation || 'Karnal')
+  const [locationFilter, setLocationFilter] = useState(selectedLocation || 'All')
   const [categoryFilter, setCategoryFilter] = useState('All')
   const [ratingFilter, setRatingFilter] = useState('All')
   const [searchFilter, setSearchFilter] = useState('')
-  const isDataReady = Array.isArray(shops) && Array.isArray(locations)
-  const areDemoStoresReady = Array.isArray(demoStores)
+
+  const isDataReady = Array.isArray(stores) && Array.isArray(storeLocations) && Array.isArray(demoStores)
 
   useEffect(() => {
     if (selectedLocation) {
@@ -18,36 +16,56 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
     }
   }, [selectedLocation])
 
-  const categoryOptions = useMemo(() => {
-    const uniqueCategories = new Set((shops || []).flatMap((shop) => shop.categories || []))
-    return ['All', ...Array.from(uniqueCategories)]
-  }, [])
+  const allStores = useMemo(() => [...demoStores, ...stores], [demoStores])
 
-  const visibleShops = useMemo(() => {
+  const categoryOptions = useMemo(
+    () => ['All', ...Array.from(new Set(allStores.map((store) => store.category)))],
+    [allStores],
+  )
+
+  const visibleStores = useMemo(() => {
     const searchValue = searchFilter.trim().toLowerCase()
-    return (shops || []).filter((shop) => {
-      const locationMatch = locationFilter === 'All' || shop.location === locationFilter
-      const categoryMatch = categoryFilter === 'All' || shop.categories.includes(categoryFilter)
-      const searchMatch = !searchValue || shop.name.toLowerCase().includes(searchValue)
+    const locationScopedStores =
+      locationFilter === 'All' ? allStores : allStores.filter((store) => store.location === locationFilter)
+
+    const baseStores =
+      locationFilter === 'All'
+        ? locationScopedStores
+        : locationScopedStores.length > 0
+          ? locationScopedStores
+          : popularStores
+
+    const filtered = baseStores.filter((store) => {
+      const categoryMatch = categoryFilter === 'All' || store.category === categoryFilter
+      const searchMatch = !searchValue || store.name.toLowerCase().includes(searchValue)
       const ratingMatch =
         ratingFilter === 'All' ||
-        (ratingFilter === '4+' && shop.rating >= 4) ||
-        (ratingFilter === '4.5+' && shop.rating >= 4.5)
+        (ratingFilter === '4+' && store.rating >= 4) ||
+        (ratingFilter === '4.5+' && store.rating >= 4.5)
 
-      return locationMatch && categoryMatch && ratingMatch && searchMatch
+      return categoryMatch && ratingMatch && searchMatch
     })
-  }, [locationFilter, categoryFilter, ratingFilter, searchFilter])
 
-  if (!isDataReady || !areDemoStoresReady) {
-    return <div className="min-h-screen bg-black px-6 py-20 text-center text-zinc-100">Loading stores...</div>
+    if (filtered.length > 0) {
+      return filtered
+    }
+
+    return popularStores
+      .filter((store) => categoryFilter === 'All' || store.category === categoryFilter)
+      .filter((store) => ratingFilter === 'All' || (ratingFilter === '4+' ? store.rating >= 4 : store.rating >= 4.5))
+      .slice(0, 12)
+  }, [allStores, categoryFilter, locationFilter, ratingFilter, searchFilter])
+
+  if (!isDataReady) {
+    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading stores...</div>
   }
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-8 flex items-end justify-between gap-3">
         <div>
-          <h2 className="font-serif text-3xl font-bold text-zinc-50 sm:text-4xl">Nearby Premium Stores</h2>
-          <p className="mt-2 text-zinc-400">Detailed local marketplace for curated fashion shops.</p>
+          <h2 className="font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Top Stores Near You</h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Showing results near {locationFilter === 'All' ? 'your city' : locationFilter} with fallback to popular stores.</p>
         </div>
       </div>
 
@@ -56,19 +74,19 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
           value={searchFilter}
           onChange={(event) => setSearchFilter(event.target.value)}
           placeholder="Search store name..."
-          className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-4 py-3 text-sm text-zinc-100 outline-none transition-colors duration-300 focus:border-gold-400"
+          className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-black outline-none transition-colors duration-300 focus:border-gold-400 dark:border-yellow-500/20 dark:bg-black/60 dark:text-white"
         />
       </div>
 
-      <div className="mb-8 grid gap-4 rounded-2xl border border-gold-500/20 bg-zinc-950/60 p-4 sm:grid-cols-3 sm:p-5">
+      <div className="mb-8 grid gap-4 rounded-2xl border border-gray-200 bg-gray-100 p-4 backdrop-blur-sm dark:border-yellow-500/20 dark:bg-zinc-900 sm:grid-cols-3 sm:p-5">
         <div>
-          <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-zinc-400">Location</label>
+          <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400">Location</label>
           <select
             value={locationFilter}
             onChange={(event) => setLocationFilter(event.target.value)}
-            className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-gold-400"
+            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-black outline-none focus:border-gold-400 dark:border-yellow-500/20 dark:bg-black/60 dark:text-white"
           >
-            {['All', ...locations]?.map((location) => (
+            {['All', ...storeLocations].map((location) => (
               <option key={location} value={location}>
                 {location}
               </option>
@@ -77,13 +95,13 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-zinc-400">Category</label>
+          <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400">Category</label>
           <select
             value={categoryFilter}
             onChange={(event) => setCategoryFilter(event.target.value)}
-            className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-gold-400"
+            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-black outline-none focus:border-gold-400 dark:border-yellow-500/20 dark:bg-black/60 dark:text-white"
           >
-            {categoryOptions?.map((category) => (
+            {categoryOptions.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
@@ -92,11 +110,11 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-zinc-400">Rating</label>
+          <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400">Rating</label>
           <select
             value={ratingFilter}
             onChange={(event) => setRatingFilter(event.target.value)}
-            className="w-full rounded-xl border border-gold-500/30 bg-black/60 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-gold-400"
+            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-black outline-none focus:border-gold-400 dark:border-yellow-500/20 dark:bg-black/60 dark:text-white"
           >
             <option value="All">All Ratings</option>
             <option value="4+">4.0+</option>
@@ -105,36 +123,13 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
         </div>
       </div>
 
-      <p className="mb-5 text-sm text-zinc-400">{visibleShops.length} stores found</p>
+      <p className="mb-5 text-sm text-gray-600 dark:text-gray-400">{visibleStores.length} stores found</p>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {visibleShops?.map((shop) => (
-          <ShopCard key={shop.id} shop={shop} />
+      <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+        {visibleStores.map((store) => (
+          <StoreCard key={store.id} store={store} />
         ))}
       </div>
-
-      {visibleShops.length === 0 && (
-        <div className="mt-8 rounded-xl border border-gold-500/20 bg-zinc-950/60 p-6 text-center text-zinc-300">
-          No stores found in your area
-        </div>
-      )}
-
-      {demoStores.length > 0 && (
-        <div className="mt-14">
-          <div className="mb-6 flex items-end justify-between gap-3">
-            <div>
-              <h3 className="font-serif text-2xl font-bold text-zinc-50 sm:text-3xl">Your Demo Stores</h3>
-              <p className="mt-2 text-zinc-400">Stores added from the Add Store form in this session.</p>
-            </div>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {demoStores?.map((store) => (
-              <StoreCard key={store.id} store={store} />
-            ))}
-          </div>
-        </div>
-      )}
     </section>
   )
 }

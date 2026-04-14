@@ -143,7 +143,7 @@ function ComingSoon() {
 
   return (
     <main
-      className="relative min-h-screen overflow-visible overflow-x-hidden bg-gradient-to-br from-black via-zinc-950 to-black px-4 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16"
+      className="relative min-h-screen overflow-visible overflow-x-hidden bg-gradient-to-br from-white via-gray-100 to-white px-4 py-12 text-black dark:from-black dark:via-zinc-950 dark:to-black dark:text-white sm:px-8 sm:py-14 md:px-12 md:py-16"
       style={{ WebkitOverflowScrolling: 'touch', touchAction: 'auto' }}
     >
       {isMobile ? (
@@ -188,13 +188,13 @@ function ComingSoon() {
       <section className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-6xl flex-col justify-center space-y-12">
         <motion.div variants={sectionVariants} initial="hidden" animate="visible" className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <motion.div variants={itemVariants} className="space-y-6 text-center lg:text-left">
-            <motion.div variants={itemVariants} className={`inline-block rounded-full border border-gold-500/30 bg-black/35 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 sm:text-sm ${isMobile ? '' : 'backdrop-blur-md'}`}>
+            <motion.div variants={itemVariants} className={`inline-block rounded-full border border-gold-500/30 bg-white/80 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 dark:bg-black/35 sm:text-sm ${isMobile ? '' : 'backdrop-blur-md'}`}>
               🚧 UNDER DEVELOPMENT
             </motion.div>
 
             <motion.h1
               variants={itemVariants}
-              className="font-serif text-4xl font-bold leading-tight text-zinc-50 sm:text-5xl md:text-6xl"
+              className="font-serif text-4xl font-bold leading-tight text-black dark:text-white sm:text-5xl md:text-6xl"
             >
               Something{' '}
               <span className="bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 bg-clip-text text-transparent">
@@ -205,7 +205,7 @@ function ComingSoon() {
 
             <motion.p
               variants={itemVariants}
-              className="mx-auto max-w-xl text-base leading-relaxed text-zinc-300 sm:text-lg lg:mx-0"
+              className="mx-auto max-w-xl text-base leading-relaxed text-gray-600 dark:text-gray-400 sm:text-lg lg:mx-0"
             >
               India’s next-gen fashion discovery platform is being crafted.
             </motion.p>
@@ -219,7 +219,7 @@ function ComingSoon() {
                 whileTap={{ scale: 0.98 }}
                 animate={isMobile ? undefined : { boxShadow: ['0 0 24px rgba(234,179,8,0.35)', '0 0 34px rgba(234,179,8,0.55)', '0 0 24px rgba(234,179,8,0.35)'] }}
                 transition={isMobile ? { duration: 0.2 } : { boxShadow: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' } }}
-                className={`rounded-2xl px-7 py-4 text-sm font-semibold text-black transition-all duration-300 sm:text-base ${isMobile ? 'bg-gold-500 shadow-md' : 'bg-gradient-to-r from-gold-500 to-gold-300 shadow-lg'}`}
+                className="rounded-2xl bg-yellow-500 px-7 py-4 text-sm font-semibold text-black transition-colors duration-300 hover:bg-yellow-400 sm:text-base"
               >
                 Chat with Himanshu
               </motion.a>
@@ -232,14 +232,14 @@ function ComingSoon() {
                 whileTap={{ scale: 0.98 }}
                 animate={isMobile ? undefined : { boxShadow: ['0 0 22px rgba(234,179,8,0.3)', '0 0 32px rgba(234,179,8,0.5)', '0 0 22px rgba(234,179,8,0.3)'] }}
                 transition={isMobile ? { duration: 0.2 } : { boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } }}
-                className={`rounded-2xl border border-gold-400/35 bg-black/45 px-7 py-4 text-sm font-semibold text-gold-200 transition-all duration-300 sm:text-base ${isMobile ? 'shadow-md' : 'shadow-lg backdrop-blur-md hover:border-gold-300/70'}`}
+                className={`rounded-2xl border border-gold-400/35 bg-white/80 px-7 py-4 text-sm font-semibold text-gold-300 transition-all duration-300 dark:bg-black/45 sm:text-base ${isMobile ? 'shadow-md' : 'shadow-lg backdrop-blur-md hover:border-gold-300/70'}`}
               >
                 Chat with Gavi
               </motion.a>
             </motion.div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className={`rounded-2xl border border-gold-500/25 bg-black/45 p-6 sm:p-8 ${isMobile ? 'shadow-md' : 'shadow-[0_0_40px_rgba(234,179,8,0.14)] backdrop-blur-xl'}`}>
+          <motion.div variants={itemVariants} className={`rounded-2xl border border-gray-200 bg-gray-100 p-6 dark:border-yellow-500/25 dark:bg-black/45 sm:p-8 ${isMobile ? 'shadow-md' : 'shadow-[0_0_40px_rgba(234,179,8,0.14)] backdrop-blur-xl'}`}>
             <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-gold-300 sm:text-sm">
               Launching Soon
             </p>
@@ -249,7 +249,7 @@ function ComingSoon() {
                 <motion.div
                   key={unit.label}
                   variants={timerVariants}
-                  className={`rounded-xl border border-gold-500/25 p-4 text-center sm:p-5 ${isMobile ? 'bg-zinc-900 shadow-sm' : 'bg-gradient-to-b from-zinc-900/80 to-black/70 shadow-[0_10px_28px_rgba(0,0,0,0.35)]'}`}
+                  className={`rounded-xl border border-gray-200 p-4 text-center dark:border-yellow-500/25 sm:p-5 ${isMobile ? 'bg-white shadow-sm dark:bg-zinc-900' : 'bg-gradient-to-b from-white to-gray-100 shadow-[0_10px_28px_rgba(0,0,0,0.12)] dark:from-zinc-900/80 dark:to-black/70 dark:shadow-[0_10px_28px_rgba(0,0,0,0.35)]'}`}
                 >
                   <motion.div
                     key={`${unit.label}-${unit.value}`}
@@ -260,7 +260,7 @@ function ComingSoon() {
                   >
                     {String(unit.value).padStart(2, '0')}
                   </motion.div>
-                  <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-zinc-400 sm:text-xs">{unit.label}</p>
+                  <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400 sm:text-xs">{unit.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -274,10 +274,10 @@ function ComingSoon() {
               variants={itemVariants}
               whileHover={isMobile ? { opacity: 0.95 } : { y: -4, scale: 1.02 }}
               transition={isMobile ? { duration: 0.2 } : { delay: index * 0.06 }}
-              className={`rounded-xl border border-gold-500/20 bg-black/35 p-5 text-center ${isMobile ? 'shadow-sm' : 'shadow-[0_12px_34px_rgba(0,0,0,0.35)] backdrop-blur-md'}`}
+              className={`rounded-xl border border-gray-200 bg-white/80 p-5 text-center dark:border-yellow-500/20 dark:bg-black/35 ${isMobile ? 'shadow-sm' : 'shadow-[0_12px_34px_rgba(0,0,0,0.12)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.35)] backdrop-blur-md'}`}
             >
               <p className="mb-3 text-2xl">{feature.icon}</p>
-              <p className="text-sm font-medium text-zinc-200 sm:text-base">{feature.title}</p>
+              <p className="text-sm font-medium text-black dark:text-white sm:text-base">{feature.title}</p>
             </motion.div>
           ))}
         </motion.div>

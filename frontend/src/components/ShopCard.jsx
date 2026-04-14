@@ -2,33 +2,43 @@ import { Link } from 'react-router-dom'
 
 export default function ShopCard({ shop }) {
   const primaryCategory = shop.categories?.[0] || 'Premium'
+  const distance = shop.distance || '0.9 km away'
+  const cashbackAmount = shop.cashbackAmount || 100
 
   return (
     <Link
       to={`/shop/${shop.id}`}
-      className="group block overflow-hidden rounded-2xl border border-gold-500/25 bg-zinc-950/70 shadow-[0_12px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:border-gold-400/60"
+      className="group block overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-[0_12px_30px_rgba(0,0,0,0.12)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 hover:shadow-[0_18px_40px_rgba(234,179,8,0.2)] dark:border-yellow-500/20 dark:bg-zinc-900"
     >
-      <div className="relative h-52 overflow-hidden">
+      <div className="relative h-[220px] w-full overflow-hidden">
         <img
           src={shop.image}
           alt={shop.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         <span className="absolute left-3 top-3 rounded-full border border-gold-500/40 bg-black/60 px-3 py-1 text-[11px] font-semibold text-gold-300 backdrop-blur-sm">
           {primaryCategory}
         </span>
       </div>
-      <div className="space-y-3 p-5">
-        <h3 className="font-serif text-xl font-bold text-zinc-100">{shop.name}</h3>
-        <p className="text-sm text-zinc-400">
+      <div className="space-y-3.5 p-5">
+        <h3 className="font-serif text-xl font-bold text-black dark:text-white">{shop.name}</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {shop.area}, {shop.location}
         </p>
+        <p className="text-xs text-gray-600 dark:text-gray-400">{distance}</p>
         <p className="text-sm font-medium text-gold-300">
-          ⭐ {shop.rating} <span className="text-zinc-400">({shop.totalReviews} reviews)</span>
+          ⭐ {shop.rating} <span className="text-gray-600 dark:text-gray-400">({shop.totalReviews} reviews)</span>
         </p>
-        <div className="inline-flex rounded-lg border border-gold-500/35 px-3 py-1.5 text-xs font-semibold text-gold-300 transition-colors duration-300 group-hover:bg-gold-500/10">
-          View Shop
+        <p className="text-xs font-semibold text-gold-300">Pay ₹500 → Get ₹{cashbackAmount}</p>
+        <span className="inline-flex w-fit rounded-full border border-gold-500/30 bg-gold-500/10 px-2.5 py-1 text-[10px] font-semibold text-gold-300">
+          Popular in your area
+        </span>
+        <p className="text-xs text-gray-600 dark:text-gray-400">Only 8 cashback left</p>
+        <p className="text-xs text-gray-600 dark:text-gray-400">20+ people saved today</p>
+        <div className="inline-flex rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-black transition-colors duration-300 group-hover:bg-yellow-400">
+          Get Cashback
         </div>
       </div>
     </Link>
