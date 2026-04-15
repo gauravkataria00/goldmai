@@ -143,7 +143,7 @@ function ComingSoon() {
 
   return (
     <main
-      className="relative min-h-screen overflow-visible overflow-x-hidden bg-gradient-to-br from-[#f8f9fb] via-[#f0f1f6] to-[#f8f9fb] px-4 py-12 text-black dark:from-black dark:via-zinc-950 dark:to-black dark:text-white sm:px-8 sm:py-14 md:px-12 md:py-16"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#f5f7fc] via-white to-[#f8f9fb] px-4 py-12 text-black dark:from-black dark:via-[#0a0a0a] dark:to-zinc-950 dark:text-white sm:px-8 sm:py-14 md:px-12 md:py-16"
       style={{ WebkitOverflowScrolling: 'touch', touchAction: 'auto' }}
     >
       {isMobile ? (
@@ -188,98 +188,113 @@ function ComingSoon() {
       <section className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-6xl flex-col justify-center space-y-12">
         <motion.div variants={sectionVariants} initial="hidden" animate="visible" className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <motion.div variants={itemVariants} className="space-y-6 text-center lg:text-left">
-            <motion.div variants={itemVariants} className="inline-block rounded-full border border-gold-500/30 bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 shadow-sm dark:bg-black/50 dark:shadow-none sm:text-sm">
-              🚧 UNDER DEVELOPMENT
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gradient-to-r from-gold-500/10 to-gold-400/5 px-4 py-2.5 text-xs font-semibold tracking-[0.12em] text-gold-400 shadow-sm dark:border-gold-400/30 dark:shadows-none sm:text-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75 animate-ping"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-gold-400"></span>
+              </span>
+              LAUNCHING SOON
             </motion.div>
 
             <motion.h1
               variants={itemVariants}
-              className="font-serif text-4xl font-bold leading-tight text-black dark:text-white sm:text-5xl md:text-6xl"
+              className="font-serif text-5xl font-bold leading-tight tracking-tight text-black dark:text-white sm:text-6xl lg:text-7xl"
             >
-              Something{' '}
-              <span className="bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 bg-clip-text text-transparent">
-                Powerful
-              </span>{' '}
-              is Coming
+              The Premium Fashion
+              <span className="mt-2 block bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 bg-clip-text text-transparent">Discovery Platform</span>
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="mx-auto max-w-xl text-base leading-relaxed text-gray-600 dark:text-gray-400 sm:text-lg lg:mx-0"
+              className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:text-xl lg:mx-0"
             >
-              India’s next-gen fashion discovery platform is being crafted.
+              Discover verified local fashion stores, explore curated collections, and earn instant cashback on every purchase. India's next-generation luxury marketplace.
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
+            <motion.div variants={itemVariants} className="flex flex-col gap-3 pt-2 sm:flex-row sm:gap-4">
               <motion.a
                 href="https://wa.me/918059172716"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={isMobile ? { opacity: 0.95 } : { scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                animate={isMobile ? undefined : { boxShadow: ['0 0 24px rgba(234,179,8,0.35)', '0 0 34px rgba(234,179,8,0.55)', '0 0 24px rgba(234,179,8,0.35)'] }}
-                transition={isMobile ? { duration: 0.2 } : { boxShadow: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' } }}
-                className="rounded-2xl bg-yellow-500 px-7 py-4 text-sm font-semibold text-black transition-colors duration-300 hover:bg-yellow-400 sm:text-base"
+                whileHover={isMobile ? { opacity: 0.95 } : { scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.97 }}
+                className="rounded-xl bg-gradient-to-r from-gold-400 to-gold-500 px-8 py-3.5 text-sm font-semibold text-black shadow-lg hover:shadow-xl transition-all duration-300 dark:shadow-gold-500/30 sm:text-base"
               >
-                Chat with Himanshu
+                Connect with Himanshu
               </motion.a>
 
               <motion.a
                 href="https://wa.me/918708195687"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={isMobile ? { opacity: 0.95 } : { scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                animate={isMobile ? undefined : { boxShadow: ['0 0 22px rgba(234,179,8,0.3)', '0 0 32px rgba(234,179,8,0.5)', '0 0 22px rgba(234,179,8,0.3)'] }}
-                transition={isMobile ? { duration: 0.2 } : { boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } }}
-                className="rounded-2xl border border-gold-400/40 bg-white px-7 py-4 text-sm font-semibold text-gold-300 shadow-md hover:shadow-lg transition-all duration-300 dark:bg-black/50 dark:shadow-none dark:hover:shadow-none dark:hover:border-gold-300/70 sm:text-base"
+                whileHover={isMobile ? { opacity: 0.95 } : { scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.97 }}
+                className="rounded-xl border border-gray-300 bg-white px-8 py-3.5 text-sm font-semibold text-black shadow-md hover:shadow-lg transition-all duration-300 dark:border-gray-700 dark:bg-zinc-900 dark:text-white dark:hover:border-gold-400/50 sm:text-base"
               >
-                Chat with Gavi
+                Connect with Gavi
               </motion.a>
             </motion.div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-lg dark:border-yellow-500/25 dark:bg-zinc-900 dark:shadow-none sm:p-8`}>
-            <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-gold-300 sm:text-sm">
-              Launching Soon
-            </p>
+          <motion.div variants={itemVariants} className="rounded-3xl border border-gray-200 bg-white p-8 shadow-xl dark:border-gray-800 dark:bg-gradient-to-b dark:from-zinc-900 dark:to-black dark:shadow-2xl sm:p-10">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500 dark:text-gray-400 mb-1">
+                  Coming In
+                </p>
+                <p className="text-2xl font-bold text-black dark:text-white">Countdown</p>
+              </div>
+              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-gold-400 to-gold-500 flex items-center justify-center">
+                <span className="text-lg font-bold text-black">⏱</span>
+              </div>
+            </div>
 
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:gap-4 xl:gap-5">
               {countdownUnits?.map((unit) => (
                 <motion.div
                   key={unit.label}
                   variants={timerVariants}
-                  className="rounded-xl border border-gray-200 bg-white p-4 text-center shadow-sm hover:shadow-md transition-shadow duration-300 dark:border-yellow-500/25 dark:bg-black/60 dark:shadow-none sm:p-5"
+                  className="group rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-5 text-center shadow-sm hover:shadow-lg hover:border-gold-300/40 transition-all duration-300 dark:border-gray-800 dark:from-zinc-800/50 dark:to-zinc-900/50 dark:hover:border-gold-400/40 sm:p-6"
                 >
                   <motion.div
                     key={`${unit.label}-${unit.value}`}
                     initial={{ opacity: 0.6, y: isMobile ? 0 : 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: isMobile ? 0.16 : 0.28, ease: 'easeOut' }}
-                    className="font-serif text-3xl font-bold text-gold-300 sm:text-4xl"
+                    className="font-serif text-4xl font-bold bg-gradient-to-r from-gold-400 to-gold-500 bg-clip-text text-transparent sm:text-5xl"
                   >
                     {String(unit.value).padStart(2, '0')}
                   </motion.div>
-                  <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400 sm:text-xs">{unit.label}</p>
+                  <p className="mt-3 text-xs font-semibold uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400 group-hover:text-gold-400 transition-colors duration-300">{unit.label}</p>
                 </motion.div>
               ))}
             </div>
           </motion.div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="grid gap-4 sm:grid-cols-3">
-          {features?.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              variants={itemVariants}
-              whileHover={isMobile ? { opacity: 0.95 } : { y: -4, scale: 1.02 }}
-              transition={isMobile ? { duration: 0.2 } : { delay: index * 0.06 }}
-              className="rounded-xl border border-gray-200 bg-white p-5 text-center shadow-sm hover:shadow-md transition-all duration-300 dark:border-yellow-500/20 dark:bg-black/50 dark:shadow-none"
-            >
-              <p className="mb-3 text-2xl">{feature.icon}</p>
-              <p className="text-sm font-medium text-black dark:text-white sm:text-base">{feature.title}</p>
-            </motion.div>
-          ))}
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="pt-8">
+          <motion.div variants={itemVariants} className="mb-6 text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-400 mb-2">What's Inside</p>
+            <h2 className="text-3xl font-bold text-black dark:text-white sm:text-4xl">Premium Features</h2>
+          </motion.div>
+          
+          <div className="grid gap-4 sm:grid-cols-3">
+            {features?.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                variants={fadeUpVariants}
+                whileHover={isMobile ? { opacity: 0.95 } : { y: -6, scale: 1.02 }}
+                transition={isMobile ? { duration: 0.2 } : { delay: index * 0.08 }}
+                className="group relative rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-6 shadow-sm hover:shadow-xl hover:border-gold-300/40 transition-all duration-300 dark:border-gray-800 dark:from-zinc-800/50 dark:to-zinc-900/50 dark:hover:border-gold-400/40 sm:p-8"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-gold-500/0 to-gold-500/0 group-hover:from-gold-500/5 group-hover:to-gold-500/5 rounded-2xl transition-all duration-300"></div>
+                <div className="relative z-10">
+                  <div className="mb-4 text-4xl group-hover:scale-110 transition-transform duration-300 inline-block">{feature.icon}</div>
+                  <p className="text-lg font-semibold text-black dark:text-white group-hover:text-gold-400 transition-colors duration-300">{feature.title}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </section>
     </main>
