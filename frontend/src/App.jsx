@@ -11,8 +11,8 @@ function App() {
   console.log('ENV:', import.meta.env)
   console.log('MAINTENANCE:', import.meta.env.VITE_MAINTENANCE_MODE)
 
-  const isMaintenance = String(import.meta.env.VITE_MAINTENANCE_MODE) === 'false'
-  console.log('IS MAINTENANCE (after String check):', isMaintenance)
+  const isMaintenance = import.meta.env.VITE_MAINTENANCE_MODE === 'true'
+  console.log('IS MAINTENANCE:', isMaintenance)
 
   if (isMaintenance) {
     return <ComingSoon />
