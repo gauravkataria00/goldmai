@@ -143,7 +143,7 @@ function ComingSoon() {
 
   return (
     <main
-      className="relative min-h-screen overflow-visible overflow-x-hidden bg-gradient-to-br from-white via-gray-100 to-white px-4 py-12 text-black dark:from-black dark:via-zinc-950 dark:to-black dark:text-white sm:px-8 sm:py-14 md:px-12 md:py-16"
+      className="relative min-h-screen overflow-visible overflow-x-hidden bg-gradient-to-br from-[#f8f9fb] via-[#f0f1f6] to-[#f8f9fb] px-4 py-12 text-black dark:from-black dark:via-zinc-950 dark:to-black dark:text-white sm:px-8 sm:py-14 md:px-12 md:py-16"
       style={{ WebkitOverflowScrolling: 'touch', touchAction: 'auto' }}
     >
       {isMobile ? (
@@ -188,7 +188,7 @@ function ComingSoon() {
       <section className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-6xl flex-col justify-center space-y-12">
         <motion.div variants={sectionVariants} initial="hidden" animate="visible" className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <motion.div variants={itemVariants} className="space-y-6 text-center lg:text-left">
-            <motion.div variants={itemVariants} className={`inline-block rounded-full border border-gold-500/30 bg-white/80 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 dark:bg-black/35 sm:text-sm ${isMobile ? '' : 'backdrop-blur-md'}`}>
+            <motion.div variants={itemVariants} className="inline-block rounded-full border border-gold-500/30 bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gold-300 shadow-sm dark:bg-black/50 dark:shadow-none sm:text-sm">
               🚧 UNDER DEVELOPMENT
             </motion.div>
 
@@ -232,14 +232,14 @@ function ComingSoon() {
                 whileTap={{ scale: 0.98 }}
                 animate={isMobile ? undefined : { boxShadow: ['0 0 22px rgba(234,179,8,0.3)', '0 0 32px rgba(234,179,8,0.5)', '0 0 22px rgba(234,179,8,0.3)'] }}
                 transition={isMobile ? { duration: 0.2 } : { boxShadow: { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } }}
-                className={`rounded-2xl border border-gold-400/35 bg-white/80 px-7 py-4 text-sm font-semibold text-gold-300 transition-all duration-300 dark:bg-black/45 sm:text-base ${isMobile ? 'shadow-md' : 'shadow-lg backdrop-blur-md hover:border-gold-300/70'}`}
+                className="rounded-2xl border border-gold-400/40 bg-white px-7 py-4 text-sm font-semibold text-gold-300 shadow-md hover:shadow-lg transition-all duration-300 dark:bg-black/50 dark:shadow-none dark:hover:shadow-none dark:hover:border-gold-300/70 sm:text-base"
               >
                 Chat with Gavi
               </motion.a>
             </motion.div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className={`rounded-2xl border border-gray-200 bg-white p-6 dark:border-yellow-500/25 dark:bg-black/45 sm:p-8 ${isMobile ? 'shadow-md' : 'shadow-[0_0_40px_rgba(234,179,8,0.14)] backdrop-blur-xl'}`}>
+          <motion.div variants={itemVariants} className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-lg dark:border-yellow-500/25 dark:bg-zinc-900 dark:shadow-none sm:p-8`}>
             <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-gold-300 sm:text-sm">
               Launching Soon
             </p>
@@ -249,7 +249,7 @@ function ComingSoon() {
                 <motion.div
                   key={unit.label}
                   variants={timerVariants}
-                  className={`rounded-xl border border-gray-200 p-4 text-center dark:border-yellow-500/25 sm:p-5 ${isMobile ? 'bg-white shadow-sm dark:bg-zinc-900' : 'bg-gradient-to-b from-white to-gray-100 shadow-[0_10px_28px_rgba(0,0,0,0.12)] dark:from-zinc-900/80 dark:to-black/70 dark:shadow-[0_10px_28px_rgba(0,0,0,0.35)]'}`}
+                  className="rounded-xl border border-gray-200 bg-white p-4 text-center shadow-sm hover:shadow-md transition-shadow duration-300 dark:border-yellow-500/25 dark:bg-black/60 dark:shadow-none sm:p-5"
                 >
                   <motion.div
                     key={`${unit.label}-${unit.value}`}
@@ -274,7 +274,7 @@ function ComingSoon() {
               variants={itemVariants}
               whileHover={isMobile ? { opacity: 0.95 } : { y: -4, scale: 1.02 }}
               transition={isMobile ? { duration: 0.2 } : { delay: index * 0.06 }}
-              className={`rounded-xl border border-gray-200 bg-white/80 p-5 text-center dark:border-yellow-500/20 dark:bg-black/35 ${isMobile ? 'shadow-sm' : 'shadow-[0_12px_34px_rgba(0,0,0,0.12)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.35)] backdrop-blur-md'}`}
+              className="rounded-xl border border-gray-200 bg-white p-5 text-center shadow-sm hover:shadow-md transition-all duration-300 dark:border-yellow-500/20 dark:bg-black/50 dark:shadow-none"
             >
               <p className="mb-3 text-2xl">{feature.icon}</p>
               <p className="text-sm font-medium text-black dark:text-white sm:text-base">{feature.title}</p>
