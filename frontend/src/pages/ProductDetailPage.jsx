@@ -7,7 +7,7 @@ export default function ProductDetailPage() {
   const isDataReady = Array.isArray(products) && Array.isArray(stores)
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading products...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading products...</div>
   }
 
   if (!id) {
@@ -33,7 +33,7 @@ export default function ProductDetailPage() {
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 p-6 dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-8">
+      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-8">
         <div className="grid gap-8 md:grid-cols-2">
           <div>
             <img src={product.image} alt={product.name} className="h-80 w-full rounded-xl object-cover sm:h-[420px]" />

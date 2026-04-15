@@ -2,7 +2,7 @@ import { locations } from '../data/shops'
 
 export default function LocationSelector({ selectedLocation, onChange }) {
   if (!Array.isArray(locations)) {
-    return <div className="w-full max-w-xs rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 text-sm text-black dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white">Loading...</div>
+    return <div className="w-full max-w-xs rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-black shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white dark:shadow-none">Loading...</div>
   }
 
   return (

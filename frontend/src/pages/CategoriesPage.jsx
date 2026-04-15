@@ -3,7 +3,7 @@ import CategoryCard from '../components/CategoryCard'
 
 export default function CategoriesPage() {
   if (!Array.isArray(categories)) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
   }
 
   return (

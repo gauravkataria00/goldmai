@@ -11,7 +11,7 @@ export default function ShopProfilePage() {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(shop?.gallery?.[0] || shop?.image || '')
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
   }
 
   if (!id) {
@@ -27,13 +27,13 @@ export default function ShopProfilePage() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 dark:border-yellow-500/20 dark:bg-zinc-900">
+      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-yellow-500/20 dark:bg-zinc-900">
         <div className="relative h-64 sm:h-72">
           <img src={shop.image} alt={shop.name} className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
           <div className="absolute bottom-5 left-5 right-5">
             <p className="text-xs uppercase tracking-[0.14em] text-zinc-300">Premium Store Profile</p>
-            <h1 className="mt-2 font-serif text-3xl font-bold text-white sm:text-4xl">{shop.name}</h1>
+            <h1 className="mt-2 font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">{shop.name}</h1>
             <p className="mt-1 text-sm text-gray-200 dark:text-gray-300">
               ⭐ {shop.rating} ({shop.totalReviews} reviews)
             </p>

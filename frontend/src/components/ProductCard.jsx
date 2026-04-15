@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function ProductCard({ product }) {
   if (!product) {
-    return <div className="rounded-xl border border-gray-200 bg-gray-100 p-4 text-black dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white">Loading...</div>
+    return <div className="rounded-xl border border-gray-200 bg-white p-4 text-black shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white dark:shadow-none">Loading...</div>
   }
 
   const normalizedDiscount = Math.max(10, Math.min(20, Number(product.discountPercent) || 10))
@@ -10,7 +10,7 @@ export default function ProductCard({ product }) {
   return (
     <Link
       to={`/product/${product.id}`}
-      className="group block overflow-hidden rounded-xl border border-gray-200 bg-gray-100 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 hover:shadow-[0_18px_40px_rgba(234,179,8,0.2)] dark:border-yellow-500/20 dark:bg-zinc-900"
+      className="group block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none dark:hover:shadow-none"
     >
       <div className="relative h-[220px] w-full overflow-hidden">
         <img

@@ -148,12 +148,12 @@ export default function HomePage() {
   }, [theme])
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading showroom...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading showroom...</div>
   }
 
   const HomeLanding = () => (
     <>
-      <section className="relative isolate overflow-hidden bg-white dark:bg-black">
+      <section className="relative isolate overflow-hidden bg-[#f8f9fb] dark:bg-black">
         <div className="absolute inset-0">
           <img
             src="https://loremflickr.com/1600/900/fashion,market?lock=20001"
@@ -161,13 +161,22 @@ export default function HomePage() {
             className="h-full w-full object-cover opacity-20"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/92 to-black" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(234,179,8,0.14),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(234,179,8,0.1),transparent_30%)]" />
+          {theme === 'dark' ? (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-b from-black via-black/92 to-black" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(234,179,8,0.14),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(234,179,8,0.1),transparent_30%)]" />
+            </>
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-white" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(234,179,8,0.08),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(234,179,8,0.05),transparent_30%)]" />
+            </>
+          )}
         </div>
 
         <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-24">
           <motion.div variants={container} initial="hidden" animate="visible" className="max-w-3xl">
-            <motion.p variants={fadeUp} className="inline-flex rounded-full border border-gold-500/20 bg-white/85 px-4 py-2 text-xs uppercase tracking-[0.18em] text-gold-300 dark:bg-black/50">
+            <motion.p variants={fadeUp} className="inline-flex rounded-full border border-gold-500/20 bg-white px-4 py-2 text-xs uppercase tracking-[0.18em] text-gold-300 shadow-sm dark:border-gold-500/30 dark:bg-black/50 dark:shadow-none">
               Startup-ready digital showroom
             </motion.p>
 
@@ -206,7 +215,7 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
 
-          <motion.div variants={container} initial="hidden" animate="visible" className="grid gap-4 rounded-3xl border border-gray-200 bg-gray-100 p-5 shadow-[0_0_40px_rgba(234,179,8,0.12)] backdrop-blur-md dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-6">
+          <motion.div variants={container} initial="hidden" animate="visible" className="grid gap-4 rounded-3xl border border-gray-200 bg-white p-5 shadow-lg backdrop-blur-md dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-6">
             <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
               {[
                 { label: 'Locations', value: String(storeLocations.length).padStart(2, '0') },
@@ -214,7 +223,7 @@ export default function HomePage() {
                 { label: 'Products', value: String(products.length) },
                 { label: 'Categories', value: String(categories.length).padStart(2, '0') },
               ].map((item) => (
-                <div key={item.label} className="rounded-2xl border border-gray-200 bg-gray-100 px-4 py-5 text-center dark:border-yellow-500/20 dark:bg-black/60">
+                <div key={item.label} className="rounded-2xl border border-gray-200 bg-white px-4 py-5 text-center shadow-sm hover:shadow-md transition-shadow duration-300 dark:border-yellow-500/20 dark:bg-black/60">
                   <div className="text-2xl font-bold text-gold-300">{item.value}</div>
                   <div className="mt-1 text-[11px] uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400">{item.label}</div>
                 </div>
@@ -337,7 +346,7 @@ export default function HomePage() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {customerReviews.map((review) => (
-            <article key={review.id} className="rounded-2xl border border-gray-200 bg-gray-100 p-5 dark:border-yellow-500/20 dark:bg-zinc-900">
+            <article key={review.id} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none">
               <p className="text-sm text-black dark:text-white">"{review.message}"</p>
               <p className="mt-3 text-xs font-semibold text-gold-300">⭐ {review.rating}</p>
               <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{review.name} • {review.location}</p>
@@ -367,7 +376,7 @@ export default function HomePage() {
   )
 
   return (
-    <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
+    <div className="min-h-screen bg-[#f8f9fb] text-black dark:bg-black dark:text-white">
       <motion.nav
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

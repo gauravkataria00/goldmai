@@ -51,7 +51,7 @@ export default function CategoryStoresPage({ selectedLocation = 'All' }) {
   }, [categoryName, locationFilter, ratingFilter])
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
   }
 
   if (!name || !categoryName) {
@@ -69,7 +69,7 @@ export default function CategoryStoresPage({ selectedLocation = 'All' }) {
         <Link to="/categories" className="text-sm text-gold-300 hover:text-gold-200">Back to Categories</Link>
       </div>
 
-      <div className="mb-8 grid gap-4 rounded-2xl border border-gray-200 bg-gray-100 p-4 dark:border-yellow-500/20 dark:bg-zinc-900 sm:grid-cols-2 sm:p-5">
+      <div className="mb-8 grid gap-4 rounded-2xl border border-gray-200 bg-white p-4 dark:border-yellow-500/20 dark:bg-zinc-900 sm:grid-cols-2 sm:p-5">
         <div>
           <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400">Location</label>
           <select

@@ -57,7 +57,7 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
   }, [allStores, categoryFilter, locationFilter, ratingFilter, searchFilter])
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading stores...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading stores...</div>
   }
 
   return (
@@ -78,7 +78,7 @@ export default function StoresPage({ selectedLocation, demoStores = [] }) {
         />
       </div>
 
-      <div className="mb-8 grid gap-4 rounded-2xl border border-gray-200 bg-gray-100 p-4 backdrop-blur-sm dark:border-yellow-500/20 dark:bg-zinc-900 sm:grid-cols-3 sm:p-5">
+      <div className="mb-8 grid gap-4 rounded-2xl border border-gray-200 bg-white p-4 dark:border-yellow-500/20 dark:bg-zinc-900 sm:grid-cols-3 sm:p-5">
         <div>
           <label className="mb-1 block text-xs uppercase tracking-[0.12em] text-gray-600 dark:text-gray-400">Location</label>
           <select

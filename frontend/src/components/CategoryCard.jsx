@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function CategoryCard({ category }) {
   if (!category) {
-    return <div className="rounded-2xl border border-gray-200 bg-gray-100 p-6 text-black dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white">Loading...</div>
+    return <div className="rounded-2xl border border-gray-200 bg-white p-6 text-black shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white dark:shadow-none">Loading...</div>
   }
 
   const categoryMeta = {
@@ -18,7 +18,7 @@ export default function CategoryCard({ category }) {
   return (
     <Link
       to={`/category/${category.name.toLowerCase()}`}
-      className="group block rounded-2xl border border-gray-200 bg-gray-100 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 hover:shadow-[0_18px_40px_rgba(234,179,8,0.2)] dark:border-yellow-500/20 dark:bg-zinc-900"
+      className="group block rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none dark:hover:shadow-none"
     >
       <div className="flex items-start justify-between gap-4">
         <div>

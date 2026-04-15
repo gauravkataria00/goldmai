@@ -12,7 +12,7 @@ export default function StoreProfilePage() {
   const [isPaymentSuccessVisible, setIsPaymentSuccessVisible] = useState(false)
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
   }
 
   if (!id) {
@@ -53,13 +53,13 @@ export default function StoreProfilePage() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 dark:border-yellow-500/20 dark:bg-zinc-900">
+      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-yellow-500/20 dark:bg-zinc-900">
         <div className="relative h-64 sm:h-72">
           <img src={store.coverImage || store.image} alt={store.name} className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
           <div className="absolute bottom-5 left-5 right-5">
             <p className="text-xs uppercase tracking-[0.14em] text-gray-200 dark:text-gray-300">Store Profile</p>
-            <h1 className="mt-2 font-serif text-3xl font-bold text-white sm:text-4xl">{store.name}</h1>
+            <h1 className="mt-2 font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">{store.name}</h1>
             <p className="mt-1 text-sm text-gray-100 dark:text-gray-200">⭐ {store.rating} • {store.category} • {totalReviews} reviews</p>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function StoreProfilePage() {
         <h2 className="font-serif text-2xl font-bold text-black dark:text-white sm:text-3xl">{productHeading}</h2>
         <p className="mt-2 text-gray-600 dark:text-gray-400">{productSubtext}</p>
 
-        <div className="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 p-3 dark:border-yellow-500/20 dark:bg-zinc-900/70">
+        <div className="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white p-3 dark:border-yellow-500/20 dark:bg-zinc-900/70">
           <img src={selectedGalleryImage || store.coverImage || store.image} alt={store.name} className="h-72 w-full rounded-xl object-cover" />
           <div className="mt-3 grid grid-cols-4 gap-2">
             {(store.galleryImages || store.gallery || []).slice(0, 4)?.map((galleryImage) => (
@@ -160,7 +160,7 @@ export default function StoreProfilePage() {
         </div>
 
         {storeProducts.length === 0 && (
-          <div className="mt-8 rounded-xl border border-gray-200 bg-gray-100 p-6 text-center text-black dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white">
+          <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 text-center text-black shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white dark:shadow-none">
             No relevant products available for this category yet.
           </div>
         )}

@@ -10,7 +10,7 @@ export default function WebsiteCard({ website }) {
     >
       <Link
         to={`/site/${website.id}`}
-        className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-[0_0_22px_rgba(234,179,8,0.08)] transition-all duration-300 hover:border-gold-400/60 hover:shadow-[0_0_28px_rgba(234,179,8,0.22)] dark:border-yellow-500/20 dark:bg-zinc-900"
+        className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:border-gold-400/60 dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none dark:hover:shadow-none"
       >
         <div className="relative h-44 overflow-hidden">
           <img

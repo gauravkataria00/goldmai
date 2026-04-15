@@ -7,7 +7,7 @@ export default function SellPage() {
 
   return (
     <section className="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 p-8 dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-10">
+      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-8 dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-10">
         <p className="text-xs uppercase tracking-[0.14em] text-gray-600 dark:text-gray-400">Seller Onboarding</p>
         <h1 className="mt-3 font-serif text-4xl font-bold text-black dark:text-white sm:text-5xl">Start Selling on GOLDMAI</h1>
         <p className="mt-4 max-w-3xl text-gray-600 dark:text-gray-400">

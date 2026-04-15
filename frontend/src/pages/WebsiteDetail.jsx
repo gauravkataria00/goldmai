@@ -33,7 +33,7 @@ function FashionGrid({ items }) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {items?.map((item) => (
-        <div key={item.name} className="rounded-xl border border-gray-200 bg-gray-100 p-4 dark:border-yellow-500/20 dark:bg-zinc-900">
+        <div key={item.name} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none">
           <div className="mb-4 h-28 rounded-lg bg-gradient-to-br from-gold-500/15 to-gray-200 dark:to-zinc-800/80" />
           <h3 className="font-semibold text-black dark:text-white">{item.name}</h3>
           <p className="mt-1 text-sm text-gold-300">{item.price}</p>
@@ -49,7 +49,7 @@ function FoodList({ items }) {
       {items?.map((item) => (
         <div
           key={item.name}
-          className="flex flex-col justify-between gap-2 rounded-xl border border-gray-200 bg-gray-100 p-4 dark:border-yellow-500/20 dark:bg-zinc-900 sm:flex-row sm:items-center"
+          className="flex flex-col justify-between gap-2 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none sm:flex-row sm:items-center"
         >
           <div>
             <h3 className="font-semibold text-black dark:text-white">{item.name}</h3>
@@ -66,7 +66,7 @@ function ElectronicsGrid({ items }) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {items?.map((item) => (
-        <div key={item.name} className="rounded-xl border border-gray-200 bg-gray-100 p-4 dark:border-yellow-500/20 dark:bg-zinc-900">
+        <div key={item.name} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none">
           <div className="mb-4 h-24 rounded-lg bg-gradient-to-br from-cyan-500/15 to-gray-200 dark:to-zinc-800/80" />
           <h3 className="font-semibold text-black dark:text-white">{item.name}</h3>
           <p className="mt-1 text-sm text-gold-300">{item.price}</p>
@@ -80,7 +80,7 @@ function ServicesCards({ items }) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {items?.map((item) => (
-        <div key={item.name} className="rounded-xl border border-gray-200 bg-gray-100 p-4 dark:border-yellow-500/20 dark:bg-zinc-900">
+        <div key={item.name} className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none">
           <h3 className="font-semibold text-black dark:text-white">{item.name}</h3>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{item.detail}</p>
           <button
@@ -100,7 +100,7 @@ export default function WebsiteDetail() {
   const isDataReady = Array.isArray(websites)
 
   if (!isDataReady) {
-    return <div className="min-h-screen bg-white px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
+    return <div className="min-h-screen bg-[#f8f9fb] px-6 py-20 text-center text-black dark:bg-black dark:text-white">Loading...</div>
   }
 
   if (!id) {
@@ -128,7 +128,7 @@ export default function WebsiteDetail() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
-        className="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 dark:border-yellow-500/20 dark:bg-zinc-900"
+        className="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-yellow-500/20 dark:bg-zinc-900"
       >
         <div className="relative h-60 sm:h-72">
           <img
@@ -141,7 +141,7 @@ export default function WebsiteDetail() {
             <span className="inline-flex rounded-full border border-gold-400/40 bg-black/65 px-3 py-1 text-xs font-semibold tracking-wide text-gold-300">
               {website.category}
             </span>
-            <h1 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl">{website.name}</h1>
+            <h1 className="mt-3 font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">{website.name}</h1>
             <p className="mt-2 max-w-2xl text-gray-200 dark:text-gray-300">{website.description}</p>
           </div>
         </div>

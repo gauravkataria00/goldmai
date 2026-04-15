@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export default function StoreCard({ store }) {
   if (!store) {
-    return <div className="rounded-2xl border border-gray-200 bg-gray-100 p-5 text-black dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white">Loading...</div>
+    return <div className="rounded-2xl border border-gray-200 bg-white p-5 text-black shadow-sm dark:border-yellow-500/20 dark:bg-zinc-900 dark:text-white dark:shadow-none">Loading...</div>
   }
 
   const phone = store.whatsappNumber?.replace(/^91/, '') || ''
@@ -15,7 +15,7 @@ export default function StoreCard({ store }) {
   const coverImage = store.coverImage || store.image
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 hover:shadow-[0_18px_40px_rgba(234,179,8,0.2)] dark:border-yellow-500/20 dark:bg-zinc-900">
+    <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none dark:hover:shadow-none">
       <Link to={`/store/${store.id}`} className="block">
         <div className="relative h-[220px] w-full overflow-hidden">
           <img

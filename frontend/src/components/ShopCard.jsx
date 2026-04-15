@@ -8,7 +8,7 @@ export default function ShopCard({ shop }) {
   return (
     <Link
       to={`/shop/${shop.id}`}
-      className="group block overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-[0_12px_30px_rgba(0,0,0,0.12)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 hover:shadow-[0_18px_40px_rgba(234,179,8,0.2)] dark:border-yellow-500/20 dark:bg-zinc-900"
+      className="group block overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/60 dark:border-yellow-500/20 dark:bg-zinc-900 dark:shadow-none dark:hover:shadow-none"
     >
       <div className="relative h-[220px] w-full overflow-hidden">
         <img

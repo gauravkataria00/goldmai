@@ -35,7 +35,7 @@ export default function AddStorePage({ onAddStore }) {
 
   return (
     <section className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-3xl border border-gray-200 bg-gray-100 p-6 dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-8">
+      <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white p-6 dark:border-yellow-500/20 dark:bg-zinc-900 sm:p-8">
         <div className="mb-8">
           <p className="text-xs uppercase tracking-[0.14em] text-gold-300">Store Onboarding</p>
           <h2 className="mt-3 font-serif text-3xl font-bold text-black dark:text-white sm:text-4xl">Add Store</h2>

@@ -239,7 +239,7 @@ function ComingSoon() {
             </motion.div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className={`rounded-2xl border border-gray-200 bg-gray-100 p-6 dark:border-yellow-500/25 dark:bg-black/45 sm:p-8 ${isMobile ? 'shadow-md' : 'shadow-[0_0_40px_rgba(234,179,8,0.14)] backdrop-blur-xl'}`}>
+          <motion.div variants={itemVariants} className={`rounded-2xl border border-gray-200 bg-white p-6 dark:border-yellow-500/25 dark:bg-black/45 sm:p-8 ${isMobile ? 'shadow-md' : 'shadow-[0_0_40px_rgba(234,179,8,0.14)] backdrop-blur-xl'}`}>
             <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-gold-300 sm:text-sm">
               Launching Soon
             </p>
